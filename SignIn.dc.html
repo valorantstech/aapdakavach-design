@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Sign in</title>
+<title>Aapda Kavach design demo</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -40,6 +40,8 @@ body{margin:0}
 </style>
 </helmet>
 <div style="display: flex; flex-wrap: wrap; min-height: 900px; background: #F4F4F1; color: #111315; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.5">
+<div style="flex: 1 1 100%; padding: 8px 16px; background: #111315; color: #FFFFFF; font-size: 13px; font-weight: 600; text-align: center">Design demo of Aapda Kavach by Phoenix Software. Sample data only. This is not a live system and asks for no passwords.</div>
+
 
 <section aria-label="About Aapda Kavach" style="position: relative; overflow: hidden; flex: 1.3 1 560px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; padding: 30px 56px 0">
 <div aria-hidden="true" style="position: absolute; left: 50%; bottom: -260px; width: 900px; height: 700px; margin-left: -450px; border-radius: 50%; background: radial-gradient(circle, rgba(234, 88, 12, 0.13), rgba(234, 88, 12, 0) 66%)"></div>
@@ -56,57 +58,22 @@ body{margin:0}
 <div style="width: 100%; max-width: 448px; box-sizing: border-box; margin: 0 auto; padding: 36px 36px 32px; background: #FFFFFF; border: 1px solid #E3E3DE; border-radius: 22px; box-shadow: 0 1px 2px rgba(17, 19, 21, 0.04), 0 24px 60px rgba(17, 19, 21, 0.10)">
 <sc-if value="{{stepSignIn}}" hint-placeholder-val="{{ true }}">
 <div class="si-card">
-<h2 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 28px; font-weight: 600; line-height: 1.2">Sign in</h2>
-<p style="margin: 6px 0 24px; color: #5F646B">Choose your company, then continue.</p>
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500; color: #3A3E44">Company
-<select class="si-in" style="min-height: 48px; box-sizing: border-box; padding: 0 12px; border: 1px solid #C9C9C3; border-radius: 10px; background: #FFFFFF; color: #111315; font: inherit; font-size: 15px"><option>Sample Bank Ltd</option><option>Sample Bank Insurance</option></select></label>
+<h2 style="margin: 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 28px; font-weight: 600; line-height: 1.2">Design demo</h2>
+<p style="margin: 6px 0 24px; color: #5F646B">A clickable preview of the Aapda Kavach console. All data is sample data and nothing is saved. No sign-in is needed.</p>
+
 <button type="button" class="si-btn" onClick="{{toCode}}" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 50px; margin-top: 16px; border: 0; border-radius: 10px; background: #111315; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">
-<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6zM9 12l2 2 4-4"></path></svg>Continue with company sign-on</button>
-<p style="margin: 8px 0 0; font-size: 12px; color: #5F646B; text-align: center">Uses your bank account. Aapda Kavach never sees your password.</p>
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6zM9 12l2 2 4-4"></path></svg>Open the demo console</button>
+<p style="margin: 8px 0 0; font-size: 12px; color: #5F646B; text-align: center">This page asks for no user name, password or code.</p>
 
-<div style="display: flex; align-items: center; gap: 12px; margin: 22px 0 6px"><span style="flex: 1; height: 1px; background: #E3E3DE"></span>
-<button type="button" class="si-ghost" onClick="{{toggleLocal}}" aria-expanded="{{localOpen}}" style="min-height: 36px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: #3A3E44; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">{{localLabel}}</button>
-<span style="flex: 1; height: 1px; background: #E3E3DE"></span></div>
-
-<sc-if value="{{showLocal}}" hint-placeholder-val="{{ true }}">
-<div class="si-card" style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px">
-<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500; color: #3A3E44">User name
-<input class="si-in" type="text" placeholder="name@bank.example" autocomplete="username" style="min-height: 48px; box-sizing: border-box; padding: 0 12px; border: 1px solid #C9C9C3; border-radius: 10px; background: #FFFFFF; color: #111315; font: inherit; font-size: 15px"></label>
-<div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 500; color: #3A3E44"><span style="display: flex; justify-content: space-between"><span>Password</span><button type="button" onClick="{{toggleForgot}}" style="padding: 0; border: 0; background: transparent; color: #B93A08; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">Forgot password?</button></span>
-<span style="position: relative; display: block"><input class="si-in" type="{{pwType}}" aria-label="Password" placeholder="Your password" autocomplete="current-password" style="width: 100%; min-height: 48px; box-sizing: border-box; padding: 0 64px 0 12px; border: 1px solid #C9C9C3; border-radius: 10px; background: #FFFFFF; color: #111315; font: inherit; font-size: 15px"><button type="button" onClick="{{togglePw}}" aria-label="Show or hide the password" style="position: absolute; right: 6px; top: 6px; min-height: 36px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: #3A3E44; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">{{pwLabel}}</button></span></div>
-<sc-if value="{{forgot}}" hint-placeholder-val="{{ false }}">
-<p style="margin: 0; padding: 12px 14px; border-radius: 10px; background: #F4F4F1; font-size: 13px; color: #3A3E44">Local passwords are reset by your Aapda Kavach administrator, not by email. If you sign in with your bank account, use the bank's own password reset.</p>
-</sc-if>
-<label style="display: flex; align-items: center; gap: 10px; min-height: 28px; font-size: 13px; color: #3A3E44"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #EA580C">Remember this device for 30 days</label>
-<button type="button" class="si-ghost" onClick="{{toCode}}" style="width: 100%; min-height: 50px; border: 1px solid #111315; border-radius: 10px; background: #FFFFFF; color: #111315; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Sign in</button>
-</div>
-</sc-if>
 </div>
 </sc-if>
 
-<sc-if value="{{stepCode}}" hint-placeholder-val="{{ false }}">
-<div class="si-card">
-<button type="button" onClick="{{back}}" style="padding: 0; border: 0; background: transparent; color: #5F646B; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">← Back</button>
-<h2 style="margin: 14px 0 0; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 28px; font-weight: 600; line-height: 1.2">Second step</h2>
-<p style="margin: 6px 0 22px; color: #5F646B">Enter the 6-digit code from your authenticator app.</p>
-<div style="display: flex; gap: 10px">
-<sc-for list="{{digits}}" as="d" hint-placeholder-count="6">
-<input class="si-in" type="text" inputmode="numeric" maxlength="1" aria-label="{{d.label}}" placeholder="{{d.ph}}" style="flex: 1 1 0; min-width: 0; height: 56px; box-sizing: border-box; text-align: center; border: 1px solid #C9C9C3; border-radius: 10px; background: #FFFFFF; color: #111315; font-family: 'Space Grotesk', Inter, sans-serif; font-size: 22px; font-weight: 600">
-</sc-for>
-</div>
-<a href="Main.dc.html" class="si-btn" style="display: flex; align-items: center; justify-content: center; width: 100%; min-height: 50px; margin-top: 18px; border-radius: 10px; background: #111315; color: #FFFFFF; text-decoration: none; font-size: 15px; font-weight: 600">Verify and open the console</a>
-<div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 13px">
-<a href="Main.dc.html" style="color: #B93A08; font-weight: 500">Use a passkey instead</a>
-<a href="Main.dc.html" style="color: #B93A08; font-weight: 500">Use a recovery code</a>
-</div>
-<p style="margin: 20px 0 0; padding: 12px 14px; border-radius: 10px; background: #F4F4F1; font-size: 13px; color: #3A3E44">Signing in as <strong>DR Manager</strong> at Sample Bank Ltd. You will be asked again before any live run.</p>
-</div>
-</sc-if>
+
 </div>
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; font-size: 12px; color: #5F646B">
-<span>Trouble signing in? Ask your Aapda Kavach administrator.</span>
-<span>Installed at Sample Bank Ltd, DR site</span>
+<span>Design demo by Phoenix Software. Sample data only.</span>
+<span>Not a live system</span>
 </div>
 </section>
 </div>
@@ -126,7 +93,7 @@ points: [
 { t: 'Proven by drills', d: 'Signed records for auditors.' }
 ],
 digits: [1, 2, 3, 4, 5, 6].map(function (n) { return { label: 'Digit ' + n, ph: '•' }; }),
-toCode: function () { self.setState({ step: 'code' }); },
+toCode: function () { window.location.href = 'Main.dc.html'; },
 back: function () { self.setState({ step: 'signin' }); },
 toggleLocal: function () { self.setState({ local: !local }); },
 toggleForgot: function () { self.setState({ forgot: !st.forgot }); },

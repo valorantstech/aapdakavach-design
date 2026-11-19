@@ -23,6 +23,6 @@ To try it on your own computer
 Notes
   - Needs an internet connection for the fonts (Google Fonts).
   - Best in Chrome or Edge on a laptop or desktop screen.
-  - Sign in: press either sign-in button, then "Verify and open the console".
-    No user name or password is needed.
+  - Start: press "Open the demo console". The demo asks for no user name,
+    password or code.
   - The Dark / Light button at the top right switches the theme.

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Assistant chat button</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="position: relative; width: 64px; height: 64px; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45; color: #0F1B2D">
+<sc-if value="{{open}}" hint-placeholder-val="{{ false }}">
+<section aria-label="Assistant chat" class="ak-ai" style="position: absolute; right: 0; bottom: 78px; width: 372px; max-width: calc(100vw - 48px); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 60px rgba(11, 31, 51, 0.35), 0 0 40px rgba(109, 40, 217, 0.25)">
+<header style="position: relative; overflow: hidden; display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 16px; color: #FFFFFF; background: #0B1F33">
+<span class="ak-blob ak-b1" aria-hidden="true" style="left: -40px; top: -60px; width: 180px; height: 180px; background: #1B4DBE; opacity: 0.9"></span>
+<span class="ak-blob ak-b2" aria-hidden="true" style="right: -30px; top: -40px; width: 170px; height: 170px; background: #6D28D9; opacity: 0.85"></span>
+<span class="ak-orb" aria-hidden="true" style="flex: 0 0 40px; width: 40px; height: 40px"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 3l2.200 6.800L21 12l-6.800 2.200L12 21l-2.200-6.800L3 12l6.800-2.200z" fill="#FFFFFF"></path></svg></span>
+<div style="position: relative; flex: 1 1 auto; min-width: 0">
+<div style="font-weight: 600">Kavach AI</div>
+<div style="font-size: 12px; color: #D9E2F2">Online. Reads only, changes nothing.</div>
+</div>
+<a href="Assistant.dc.html" aria-label="Expand to full screen" title="Expand to full screen" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 8px; color: #FFFFFF"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7"></path></svg></a>
+<button type="button" onClick="{{toggle}}" aria-label="Close chat" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: #FFFFFF"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</header>
+<div style="padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 360px; overflow-y: auto; background: #F7F8FA">
+<div style="max-width: 290px; padding: 10px 14px; border-radius: 4px 14px 14px 14px; background: #FFFFFF; border: 1px solid #DDE2EA">Hello. Ask me about services, drills, alerts or differences. Try one of these:</div>
+<sc-for list="{{chips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.ask}}" style="align-self: flex-start; min-height: 44px; padding: 0 14px; border: 1px solid #1B4DBE; border-radius: 999px; background: #FFFFFF; color: #1B4DBE; font: inherit; font-weight: 500; text-align: left">{{c.q}}</button>
+</sc-for>
+<sc-if value="{{hasAsked}}" hint-placeholder-val="{{ false }}">
+<div style="align-self: flex-end; max-width: 270px; padding: 10px 14px; border-radius: 14px 4px 14px 14px; background: #1B4DBE; color: #FFFFFF">{{asked.q}}</div>
+</sc-if>
+<sc-if value="{{thinking}}" hint-placeholder-val="{{ false }}">
+<div style="align-self: flex-start; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 4px 14px 14px 14px; background: #FFFFFF; border: 1px solid #DDE2EA"><span><span class="ak-dot"></span><span class="ak-dot"></span><span class="ak-dot"></span></span><span class="ak-shimmer" style="font-size: 13px; font-weight: 600">Checking live records</span></div>
+</sc-if>
+<sc-if value="{{answering}}" hint-placeholder-val="{{ false }}">
+<div style="max-width: 300px; padding: 10px 14px; border-radius: 4px 14px 14px 14px; background: #FFFFFF; border: 1px solid #DDE2EA"><span class="{{caretClass}}">{{typed}}</span><sc-if value="{{done}}" hint-placeholder-val="{{ false }}"> <a href="{{asked.href}}" style="display: inline-flex; align-items: center; min-height: 44px; color: #1B4DBE; font-weight: 600">{{asked.link}}</a></sc-if></div>
+</sc-if>
+</div>
+<form style="display: flex; gap: 8px; padding: 12px; border-top: 1px solid #DDE2EA; background: #FFFFFF">
+<input type="text" aria-label="Ask Kavach AI" placeholder="Type a question" style="flex: 1 1 auto; min-width: 0; min-height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; font: inherit; color: #0F1B2D">
+<button type="button" aria-label="Send" style="flex: 0 0 44px; height: 44px; padding: 0; border: 0; border-radius: 8px; background: #1B4DBE; color: #FFFFFF"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-3-6z"></path></svg></button>
+</form>
+</section>
+</sc-if>
+<button type="button" onClick="{{toggle}}" aria-label="{{label}}" aria-expanded="{{expanded}}" style="position: relative; width: 64px; height: 64px; padding: 4px; border: 0; border-radius: 50%; background: transparent; cursor: pointer">
+<span class="ak-orb" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 3l2.200 6.800L21 12l-6.800 2.200L12 21l-2.200-6.800L3 12l6.800-2.200z" fill="#FFFFFF"></path><path d="M19 3l.800 2.200L22 6l-2.200.800L19 9l-.800-2.200L16 6l2.200-.800z" fill="#FDBA74"></path></svg></span>
+<span aria-hidden="true" style="position: absolute; right: 3px; bottom: 3px; width: 13px; height: 13px; border-radius: 50%; background: #22C55E; border: 2px solid #FFFFFF"></span>
+</button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":64,"height":64}}'>
+class Component extends DCLogic {
+componentWillUnmount() { clearTimeout(this._t); clearInterval(this._i); }
+renderVals() {
+var self = this, st = this.state || {}, open = !!st.open;
+var data = [
+{ id: 'q1', q: 'Is anything at risk right now?', a: 'Yes, three services. Internet Banking is 22 minutes behind on replication, Treasury has had no real drill for 190 days, and Data Warehouse replication has stopped.', href: 'Alerts.dc.html', link: 'Open alerts' },
+{ id: 'q2', q: 'When is the next drill?', a: 'Treasury switchover on Saturday 28 November at 23:00. It is blocked by one database patch difference.', href: 'Drills.dc.html', link: 'Open drills' },
+{ id: 'q3', q: 'Why did Data Warehouse replication stop?', a: 'The DR server ran out of space for incoming logs at 06:50, so the standby stopped applying changes.', href: 'Assistant.dc.html', link: 'See the full diagnosis' }
+];
+var asked = data.filter(function (d) { return d.id === st.asked; })[0];
+var chars = st.chars || 0, full = asked ? asked.a.length : 0, done = !!asked && !st.thinking && chars >= full;
+function ask(d) {
+clearTimeout(self._t); clearInterval(self._i);
+self.setState({ asked: d.id, thinking: true, chars: 0 });
+self._t = setTimeout(function () {
+self.setState({ thinking: false });
+self._i = setInterval(function () {
+var n = ((self.state && self.state.chars) || 0) + 2;
+self.setState({ chars: n });
+if (n >= d.a.length) { clearInterval(self._i); }
+}, 22);
+}, 1100);
+}
+return {
+open: open, expanded: open ? 'true' : 'false', label: open ? 'Close the Kavach AI chat' : 'Open the Kavach AI chat',
+toggle: function () { self.setState({ open: !open }); },
+chips: data.map(function (d) { return { q: d.q, ask: function () { ask(d); } }; }),
+hasAsked: !!asked, asked: asked || data[0], thinking: !!st.thinking, answering: !!asked && !st.thinking,
+typed: asked ? asked.a.slice(0, chars) : '', done: done, caretClass: done ? '' : 'ak-caret'
+};
+}
+}
+</script>
+</body>
+</html>

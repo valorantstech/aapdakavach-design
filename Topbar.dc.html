@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Top bar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+@keyframes tb-live{0%,100%{box-shadow:0 0 0 0 rgba(234,88,12,.5)}50%{box-shadow:0 0 0 6px rgba(234,88,12,0)}}.tb-live{animation:tb-live 1.8s ease-in-out infinite}
+
+/*light*/[data-ak-theme="light"]{background:#F4F4F1!important;color:#111315!important}[data-ak-theme="light"] nav[aria-label="Main"]{background:#111315!important}[data-ak-theme="light"]>div[style*="background: rgb(11, 31, 51)"]{background:#111315!important}[data-ak-theme="light"] [style*="background: rgb(11, 31, 51)"]{background:#111315!important}[data-ak-theme="light"] [style*="background: rgb(243, 245, 248)"]{background:#F4F4F1!important}[data-ak-theme="light"] [style*="background: rgb(247, 248, 250)"]{background:#FAFAF8!important}[data-ak-theme="light"] [style*="background: rgb(232, 236, 242)"]{background:#ECECE8!important}[data-ak-theme="light"] [style*="rgb(221, 226, 234)"]{border-color:#E3E3DE!important}[data-ak-theme="light"] [style*="solid rgb(152, 162, 179)"]{border-color:#C9C9C3!important}[data-ak-theme="light"] [style*=" color: rgb(15, 27, 45)"]{color:#111315!important}[data-ak-theme="light"] [style*=" color: rgb(71, 86, 107)"]{color:#5F646B!important}[data-ak-theme="light"] [style*=" color: rgb(52, 66, 86)"]{color:#3A3E44!important}[data-ak-theme="light"] main [style*="box-shadow"][style*="border-radius: 1"]:not(.ak-ai):not(button):not(a){box-shadow:none!important}[data-ak-theme="light"] a{color:#B93A08}[data-ak-theme="light"] a:hover{color:#8F2C05}[data-ak-theme="light"] button[style*="background: rgb(27, 77, 190)"],[data-ak-theme="light"] a[style*="background: rgb(27, 77, 190)"]{background:#111315!important;color:#FFFFFF!important}[data-ak-theme="light"] span[style*="background: rgb(27, 77, 190)"][style*="border-radius: 50%"]{background:#111315!important;color:#FFFFFF!important}[data-ak-theme="light"] span[style*="background: rgb(27, 77, 190)"]:not([style*="border-radius: 50%"]),[data-ak-theme="light"] div[style*="background: rgb(27, 77, 190)"]{background:#EA580C!important}[data-ak-theme="light"] main div[style*="background: rgb(27, 77, 190)"][style*="border-radius: 14px"]{background:#111315!important;color:#FFFFFF!important}[data-ak-theme="light"] [style*="solid rgb(27, 77, 190)"]{border-color:#EA580C!important}[data-ak-theme="light"] [style*=" color: rgb(27, 77, 190)"]:not([style*="background"]){color:#B93A08!important}[data-ak-theme="light"] button[style*=" color: rgb(27, 77, 190)"]{color:#111315!important;border-color:#C9C9C3!important}[data-ak-theme="light"] [style*="background: rgb(220, 231, 251)"]{background:#ECECE8!important;color:#111315!important}[data-ak-theme="light"] [style*="background: rgb(237, 229, 251)"]{background:#ECECE8!important;color:#3A3E44!important}[data-ak-theme="light"] [style*="background: rgb(109, 40, 217)"]{background:#8A8F98!important}[data-ak-theme="light"] [style*="background: rgb(14, 116, 144)"]{background:#4F7C9B!important}[data-ak-theme="light"] [style*="linear-gradient(135deg"]{background:#111315!important;box-shadow:none!important}[data-ak-theme="light"] svg [stroke="#1B4DBE"]{stroke:#111315}[data-ak-theme="light"] svg [fill="#1B4DBE"]{fill:#111315}[data-ak-theme="light"] svg [stroke="#6D28D9"]{stroke:#8A8F98}[data-ak-theme="light"] svg [stroke="#0E7490"]{stroke:#4F7C9B}[data-ak-theme="light"] svg [stop-color="#1B4DBE"]{stop-color:#111315}[data-ak-theme="light"] input[type="checkbox"],[data-ak-theme="light"] input[type="radio"]{accent-color:#EA580C}[data-ak-theme="light"] .ak-ai{background:linear-gradient(#FFFFFF,#FFFFFF) padding-box,conic-gradient(from var(--ak-a),#EA580C,#111315 35%,#D9D6D0 55%,#111315 80%,#EA580C) border-box!important}[data-ak-theme="light"] .ak-orb{background:conic-gradient(from var(--ak-a),#EA580C,#111315 35%,#D9D6D0 55%,#111315 80%,#EA580C)}[data-ak-theme="light"] .ak-orb::after{background:radial-gradient(circle at 32% 28%,#4A4E55,#111315 72%)}[data-ak-theme="light"] .ak-shimmer{background-image:linear-gradient(90deg,#111315,#EA580C,#8A8F98,#111315)}[data-ak-theme="light"] .ak-blob{display:none}[data-ak-theme="light"] tbody tr:hover{background-color:#F4F4F1}[data-ak-theme="light"] #ak-command-list{background:#FFFFFF!important}
+</style>
+</helmet>
+<div style="position: relative; z-index: 30; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid #DDE2EA; font-family: Inter, system-ui, sans-serif; font-size: 14px; color: #0F1B2D">
+<div style="position: relative; flex: 1 1 260px; max-width: 460px">
+<input type="search" role="combobox" aria-expanded="{{expanded}}" aria-controls="ak-command-list" aria-label="Search or jump to a screen or action" placeholder="Search or jump to..." value="{{q}}" onChange="{{type}}" onFocus="{{openIt}}" style="width: 100%; min-height: 44px; box-sizing: border-box; padding: 0 76px 0 14px; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; color: #0F1B2D; font: inherit">
+<span aria-hidden="true" style="position: absolute; right: 10px; top: 10px; padding: 2px 8px; border: 1px solid #98A2B3; border-radius: 6px; font-size: 12px; color: #47566B; pointer-events: none">Ctrl K</span>
+<sc-if value="{{open}}" hint-placeholder-val="{{ false }}">
+<div id="ak-command-list" style="position: absolute; left: 0; top: 52px; width: 520px; max-width: calc(100vw - 48px); max-height: 440px; overflow-y: auto; background: #FFFFFF; border: 1px solid #98A2B3; border-radius: 10px; box-shadow: 0 24px 60px rgba(11, 15, 20, 0.35)">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #DDE2EA">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #47566B">{{heading}}</span>
+<button type="button" onClick="{{closeIt}}" style="min-height: 44px; padding: 0 12px; border: 0; background: transparent; color: #47566B; font: inherit; font-weight: 500">Close</button>
+</div>
+<sc-for list="{{results}}" as="r" hint-placeholder-count="6">
+<a href="{{r.href}}" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 0 14px; border-bottom: 1px solid #DDE2EA; color: #0F1B2D; text-decoration: none">
+<span><span style="font-weight: 600">{{r.name}}</span> <span style="font-size: 13px; color: #47566B">{{r.note}}</span></span>
+<span style="padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; color: #344256; background: #E8ECF2">{{r.kind}}</span>
+</a>
+</sc-for>
+<sc-if value="{{none}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; padding: 16px 14px; color: #47566B">Nothing matches. Try a service name, a screen or an action such as "drill".</p>
+</sc-if>
+</div>
+</sc-if>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<span style="font-size: 13px; color: #47566B">Sample Bank Ltd</span>
+<a href="Run.dc.html" title="Payments Gateway switchover, step 4 of 9, waiting for approval" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; color: #0F1B2D; text-decoration: none; font-weight: 500"><span class="tb-live" aria-hidden="true" style="width: 9px; height: 9px; border-radius: 50%; background: #C2410C"></span>1 run in progress</a>
+<a href="Inbox.dc.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; color: #0F1B2D; text-decoration: none; font-weight: 500">Inbox<span style="padding: 1px 8px; border-radius: 999px; background: #FBDCDC; color: #9B1C1C; font-size: 12px; font-weight: 600">2</span></a>
+<button type="button" onClick="{{toggle}}" aria-pressed="{{pressed}}" aria-label="Dark theme" title="Switch between light and dark theme" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; color: #0F1B2D; font: inherit; font-weight: 500">
+<sc-if value="{{dark}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v2M12 20v2M2 12h2M20 12h2M4.900 4.900l1.400 1.400M17.700 17.700l1.400 1.400M4.900 19.100l1.400-1.400M17.700 6.300l1.400-1.400"></path></svg></sc-if>
+<sc-if value="{{light}}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.500A8 8 0 019.500 4a7 7 0 1010.500 10.500z"></path></svg></sc-if>
+{{themeLabel}}</button>
+<a href="Profile.dc.html" aria-label="Account menu for DR Manager" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px 0 6px; border: 1px solid #98A2B3; border-radius: 999px; background: #FFFFFF; color: #0F1B2D; font: inherit; font-weight: 500; text-decoration: none"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: #1B4DBE; color: #FFFFFF; font-size: 12px; font-weight: 600">DM</span>DR Manager</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"startOpen":{"editor":"boolean","default":false},"$preview":{"width":1208,"height":64}}'>
+class Component extends DCLogic {
+componentDidMount() {
+var saved = null, dark = false;
+try { saved = localStorage.getItem('ak-theme'); } catch (e) {}
+var roots = document.querySelectorAll('[data-ak-root]');
+for (var i = 0; i < roots.length; i++) {
+var r = roots[i];
+if (!r.getAttribute('data-ak-fixed') && saved) { r.setAttribute('data-ak-theme', saved); }
+if (r.getAttribute('data-ak-theme') === 'dark') { dark = true; }
+}
+this.setState({ dark: dark });
+}
+renderVals() {
+var self = this, st = this.state || {}, dark = !!st.dark, q = st.q || '';
+var open = st.open == null ? !!this.props.startOpen : !!st.open;
+var all = [
+['Approve step 4', 'Payments Gateway switchover is waiting for you', 'Action', 'Run.dc.html'],
+['Explain an alert', 'Data Warehouse replication has stopped', 'Action', 'Assistant.dc.html'],
+['Start a drill', 'Treasury switchover, blocked by 1 difference', 'Action', 'Drills.dc.html'],
+['Open the drill summary', 'Core Banking, 14 Nov 2026', 'Action', 'Proof.dc.html'],
+['Home', 'Is the business protected right now?', 'Screen', 'Main.dc.html'],
+['Live Status', 'Recovery path and replication', 'Screen', 'Status.dc.html'],
+['Trends', 'Readiness, drills and alerts over time', 'Screen', 'Trends.dc.html'],
+['Alerts', '3 open', 'Screen', 'Alerts.dc.html'],
+['Runbooks', '8 runbooks, 2 recovery plans', 'Screen', 'Runbooks.dc.html'],
+['Drills', 'Calendar and pre-drill checks', 'Screen', 'Drills.dc.html'],
+['Baseline', '5 open differences', 'Screen', 'Baseline.dc.html'],
+['Service Map', 'Dependencies and business impact', 'Screen', 'Map.dc.html'],
+['Proof', 'Reports and signed records', 'Screen', 'Proof.dc.html'],
+['Estate', '46 servers and databases', 'Screen', 'Estate.dc.html'],
+['Internet Banking', 'Tier 1, exposed, 64% ready', 'Service', 'Status.dc.html'],
+['Treasury', 'Tier 2, exposed, 58% ready', 'Service', 'Baseline.dc.html'],
+['Data Warehouse', 'Tier 3, disrupted', 'Service', 'Alerts.dc.html'],
+['Declare a disaster', 'A person decides, two approvals', 'Action', 'Declare.dc.html'],
+['Start a run', 'Simulate, real drill or live switchover', 'Action', 'Launch.dc.html'],
+['Create a runbook', 'Template, describe it or convert a document', 'Action', 'Create.dc.html'],
+['Build a report', 'Pick facts, filter and schedule', 'Action', 'ReportBuilder.dc.html'],
+['Inbox', '2 waiting for you', 'Screen', 'Inbox.dc.html'],
+['Cyber resilience', 'Clean copies in the vault', 'Screen', 'Cyber.dc.html'],
+['Cloud', '22 resources in 2 accounts', 'Screen', 'Cloud.dc.html'],
+['Assistant', 'Ask in plain language', 'Screen', 'Assistant.dc.html'],
+['Admin', 'People, sign-in, integrations, system', 'Screen', 'Access.dc.html'],
+['Recovery plans', 'Tier 1 site switchover', 'Screen', 'Plan.dc.html'],
+['Automation', 'Schedules and alert rules', 'Screen', 'Automation.dc.html'],
+['Sites', 'Primary and DR', 'Screen', 'Sites.dc.html'],
+['Recovery pairs', '23 pairs', 'Screen', 'EstatePairs.dc.html'],
+['Passwords and keys', 'Vault and stored accounts', 'Screen', 'Credentials.dc.html'],
+['Notifications', 'Channels, routing, escalation', 'Screen', 'Notify.dc.html'],
+['Integrations', 'Vault, tickets, monitoring', 'Screen', 'Integrations.dc.html'],
+['System', 'Standby, backups, upgrades, licence', 'Screen', 'System.dc.html'],
+['Audit trail', 'Every action, sealed', 'Screen', 'Audit.dc.html'],
+['My profile', 'Sign-in and notifications', 'Screen', 'Profile.dc.html'],
+['Help', 'User guide and support', 'Screen', 'Help.dc.html'],
+['Add a person', 'From the bank directory', 'Action', 'PersonNew.dc.html'],
+['Add a server or database', 'SSH, WinRM, Oracle, SQL Server and more', 'Action', 'ComponentNew.dc.html'],
+['Practice mode', 'Safe copy with pretend servers', 'Screen', 'Training.dc.html'],
+['Gateways', 'Relays for closed networks', 'Screen', 'Gateways.dc.html'],
+['Data and certificates', 'Retention, archive, certificate', 'Screen', 'DataSettings.dc.html']
+];
+var needle = q.toLowerCase();
+var hits = all.filter(function (x) { return !needle || (x[0] + ' ' + x[1] + ' ' + x[2]).toLowerCase().indexOf(needle) >= 0; });
+if (!needle) { hits = hits.slice(0, 8); }
+return {
+dark: dark, light: !dark, pressed: dark ? 'true' : 'false', themeLabel: dark ? 'Light' : 'Dark',
+q: q, open: open, expanded: open ? 'true' : 'false', none: hits.length === 0,
+heading: needle ? hits.length + ' results' : 'Suggested for you',
+results: hits.map(function (x) { return { name: x[0], note: x[1], kind: x[2], href: x[3] }; }),
+type: function (e) { self.setState({ q: e.target.value, open: true }); },
+openIt: function () { self.setState({ open: true }); },
+closeIt: function () { self.setState({ open: false, q: '' }); },
+toggle: function (e) {
+var root = e.currentTarget.closest('[data-ak-root]'), next = dark ? 'light' : 'dark';
+if (root) { root.setAttribute('data-ak-theme', next); }
+try { localStorage.setItem('ak-theme', next); } catch (err) {}
+self.setState({ dark: !dark });
+}
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Side panel and messages</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+@keyframes akp-slide{from{transform:translateX(40px);opacity:0}}
+@keyframes akp-fade{from{opacity:0}}
+@keyframes akp-rise{from{transform:translate(-50%,16px);opacity:0}}
+.akp-drawer{animation:akp-slide .22s ease both}
+.akp-scrim{animation:akp-fade .2s ease both}
+.akp-toast{animation:akp-rise .25s ease both}
+</style>
+</helmet>
+<div style="font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45; color: #0F1B2D">
+<sc-if value="{{open}}" hint-placeholder-val="{{ false }}">
+<div class="akp-scrim" onClick="{{close}}" aria-hidden="true" style="position: fixed; inset: 0; z-index: 90; background: rgba(8, 10, 12, 0.5)"></div>
+<aside class="akp-drawer" role="dialog" aria-label="{{title}}" style="position: fixed; top: 0; right: 0; bottom: 0; z-index: 91; width: 480px; max-width: 100vw; box-sizing: border-box; display: flex; flex-direction: column; background: #FFFFFF; border-left: 1px solid #98A2B3; box-shadow: -24px 0 60px rgba(8, 10, 12, 0.3)">
+<header style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 20px 24px 16px; border-bottom: 1px solid #DDE2EA">
+<div style="min-width: 0">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #47566B">{{kicker}}</div>
+<h2 style="margin: 4px 0 0; font-size: 20px; font-weight: 600; line-height: 1.25">{{title}}</h2>
+</div>
+<button type="button" onClick="{{close}}" aria-label="Close the panel" style="flex: 0 0 44px; height: 44px; padding: 0; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; color: #0F1B2D; font: inherit; font-size: 18px; cursor: pointer">×</button>
+</header>
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 18px 24px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; color: #344256">{{desc}}</p>
+<sc-if value="{{isConn}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #344256; background: #E8ECF2">{{how}}</span>
+<span style="padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #344256; background: #E8ECF2">{{dir}}</span>
+</div>
+</sc-if>
+<sc-if value="{{isDanger}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; padding: 12px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; color: #9B1C1C; background: #FBDCDC">{{warn}}</p>
+</sc-if>
+<sc-if value="{{isList}}" hint-placeholder-val="{{ false }}">
+<div style="border: 1px solid #DDE2EA; border-radius: 8px; overflow: hidden">
+<div style="display: flex; gap: 10px; padding: 9px 14px; font-size: 12px; color: #47566B; background: #F7F8FA"><span style="flex: 1.3 1 0">{{h1}}</span><span style="flex: 1 1 0">{{h2}}</span><span style="flex: 1.3 1 0">{{h3}}</span></div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+<div style="display: flex; gap: 10px; padding: 10px 14px; border-top: 1px solid #DDE2EA; font-size: 13px"><span style="flex: 1.3 1 0; font-weight: 600">{{r.a}}</span><span style="flex: 1 1 0">{{r.b}}</span><span style="flex: 1.3 1 0; color: #344256">{{r.c}}</span></div>
+</sc-for>
+</div>
+<p style="margin: 0; padding: 12px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: #0B5D3B; background: #D3F2E1">{{sum}}</p>
+</sc-if>
+<sc-for list="{{fields}}" as="f" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #344256"><span>{{f.l}}</span>
+<sc-if value="{{f.isText}}" hint-placeholder-val="{{ true }}">
+<input type="text" aria-label="{{f.l}}" value="{{f.v}}" placeholder="{{f.ph}}" onChange="{{f.set}}" style="min-height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; color: #0F1B2D; font: inherit">
+</sc-if>
+<sc-if value="{{f.isSecret}}" hint-placeholder-val="{{ false }}">
+<input type="password" aria-label="{{f.l}}" value="{{f.v}}" placeholder="Typed once, kept encrypted, never shown again" onChange="{{f.set}}" style="min-height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; color: #0F1B2D; font: inherit">
+</sc-if>
+<sc-if value="{{f.isPick}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{f.opts}}" as="o" hint-placeholder-count="3">
+<button type="button" onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="min-height: 38px; padding: 0 12px; border-radius: 8px; border: {{o.border}}; background: #FFFFFF; color: #0F1B2D; font: inherit; font-size: 13px; font-weight: {{o.weight}}; cursor: pointer">{{o.t}}</button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+<sc-for list="{{choices}}" as="c" hint-placeholder-count="2">
+<label style="display: flex; align-items: center; gap: 10px; min-height: 36px"><input type="checkbox" checked="{{c.on}}" onChange="{{c.flip}}" style="width: 18px; height: 18px">{{c.l}}</label>
+</sc-for>
+<sc-if value="{{hasDrop}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 26px 16px; border: 1px dashed #98A2B3; border-radius: 8px; text-align: center; color: #47566B">Drop the file here, or choose it from this computer.<br><span style="font-size: 12px">{{dropNote}}</span></div>
+</sc-if>
+<sc-if value="{{tested}}" hint-placeholder-val="{{ false }}">
+<div style="border: 1px solid #DDE2EA; border-radius: 8px">
+<div style="padding: 10px 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #47566B">Connection test, just now</div>
+<sc-for list="{{checks}}" as="k" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-top: 1px solid #DDE2EA"><span>{{k}}</span><span style="padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #0B5D3B; background: #D3F2E1">Pass</span></div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{hasNote}}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; padding: 12px 14px; border-radius: 8px; font-size: 13px; color: #344256; background: #F3F5F8">{{note}}</p>
+</sc-if>
+</div>
+<footer style="display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; padding: 16px 24px; border-top: 1px solid #DDE2EA">
+<button type="button" onClick="{{close}}" style="min-height: 44px; padding: 0 16px; border: 1px solid #98A2B3; border-radius: 8px; background: #FFFFFF; color: #0F1B2D; font: inherit; font-weight: 500; cursor: pointer">Cancel</button>
+<sc-if value="{{isDanger}}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{confirm}}" style="min-height: 44px; padding: 0 16px; border: 1px solid #9B1C1C; border-radius: 8px; background: #FFFFFF; color: #9B1C1C; font: inherit; font-weight: 600; cursor: pointer">{{cta}}</button>
+</sc-if>
+<sc-if value="{{isListLink}}" hint-placeholder-val="{{ false }}">
+<a href="{{href}}" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 8px; background: #1B4DBE; color: #FFFFFF; text-decoration: none; font-weight: 600">{{cta}}</a>
+</sc-if>
+<sc-if value="{{isNormal}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{confirm}}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 8px; background: #1B4DBE; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">{{cta}}</button>
+</sc-if>
+</footer>
+</aside>
+</sc-if>
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{ false }}">
+<div class="akp-toast" role="status" style="position: fixed; left: 50%; bottom: 28px; z-index: 95; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; max-width: calc(100vw - 48px); padding: 12px 18px; border-radius: 10px; background: #0B1F33; color: #FFFFFF; font-weight: 500; box-shadow: 0 16px 40px rgba(8, 10, 12, 0.35)">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"></path></svg>
+<span>{{toast}}</span>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":480,"height":120}}'>
+class Component extends DCLogic {
+componentDidMount() {
+var self = this;
+this._h = function (e) {
+var b = e.target && e.target.closest ? e.target.closest('[data-act]') : null;
+if (!b) { var d = e.target && e.target.closest ? e.target.closest('[data-drill]') : null; if (d && !e.target.closest('a, button, input, select')) { self.drill(d.getAttribute('data-drill'), d); } return; }
+var label = (b.textContent || '').replace(/\s+/g, ' ').trim() || b.getAttribute('aria-label') || 'Action';
+var ctx = '', row = b.closest('tr');
+if (row && row.cells && row.cells[0]) { ctx = row.cells[0].textContent.trim(); }
+if (!ctx) { var el = b.parentElement; for (var i = 0; i < 6 && el; i++) { var h = el.querySelector('h3, h2'); if (h) { ctx = h.textContent.trim(); break; } el = el.parentElement; } }
+self.act(label.slice(0, 60), ctx.slice(0, 60));
+};
+this._roots = document.querySelectorAll('[data-ak-root]');
+for (var i = 0; i < this._roots.length; i++) { this._roots[i].addEventListener('click', this._h); }
+}
+componentWillUnmount() {
+clearTimeout(this._t);
+for (var i = 0; this._roots && i < this._roots.length; i++) { this._roots[i].removeEventListener('click', this._h); }
+}
+say(msg) {
+var self = this; clearTimeout(this._t);
+this.setState({ panel: null, toast: msg });
+this._t = setTimeout(function () { self.setState({ toast: null }); }, 3200);
+}
+conn(name) {
+var T = function (l, ph, w) { return { l: l, k: 'text', v: '', ph: ph || '', w: w || null }; };
+var V = function (l, v, w) { return { l: l, k: 'text', v: v, ph: '', w: w || null }; };
+var S = function (l, w) { return { l: l, k: 'secret', v: '', ph: '', w: w || null }; };
+var K = function (l, opts, w) { return { l: l, k: 'pick', v: opts[0], opts: opts, ph: '', w: w || null }; };
+var VAULT = 'Fetch it from the bank vault', TYPED = 'Type it here';
+var cred = function (userPh) { return [K('Password comes from', [VAULT, TYPED]), T('Vault path', '/dr/integrations/...', ['Password comes from', VAULT]), T('User name', userPh, ['Password comes from', TYPED]), S('Password', ['Password comes from', TYPED])]; };
+var C = {
+'CyberArk': ['HTTPS 443, Central Credential Provider', 'Aapda Kavach calls the vault', 'Server passwords are fetched at the moment a step runs and are never stored.', [T('Vault address', 'https://cyberark.bank.example'), V('Application ID', 'AapdaKavach'), T('Safe', 'DR-Recovery'), K('How the vault recognises Aapda Kavach', ['Client certificate', 'This server address', 'Operating system user']), T('Folder and object pattern', 'Root\\{service}\\{component}')], ['Vault address reached on 443', 'Application ID accepted', 'Read one test password from the safe']],
+'HashiCorp Vault': ['HTTPS 8200, Vault API', 'Aapda Kavach calls the vault', 'An alternative to CyberArk. Passwords are fetched at run time.', [T('Vault address', 'https://vault.bank.example:8200'), T('Namespace', 'dr'), K('Sign-in method', ['AppRole', 'Client certificate', 'Token']), T('Role ID', '', ['Sign-in method', 'AppRole']), S('Secret ID', ['Sign-in method', 'AppRole']), S('Token', ['Sign-in method', 'Token']), T('Secrets path', 'secret/data/dr/{service}/{component}')], ['Vault reached on 8200 and unsealed', 'Signed in', 'Read one test secret']],
+'ServiceNow': ['HTTPS 443, REST', 'Aapda Kavach calls ServiceNow', 'Raises and updates tickets for alerts and baseline differences.', [T('Instance address', 'https://bank.service-now.com'), K('Sign in with', ['OAuth client', 'User name and password']), T('Client ID', '', ['Sign in with', 'OAuth client']), S('Client secret', ['Sign in with', 'OAuth client']), T('User name', 'svc_aapdakavach', ['Sign in with', 'User name and password']), S('Password', ['Sign in with', 'User name and password']), V('Table', 'incident'), T('Assignment group', 'DR Operations')], ['Instance reached', 'Signed in', 'Created and closed one test ticket']],
+'Jira': ['HTTPS 443, REST', 'Aapda Kavach calls Jira', 'Raises and updates issues for alerts and baseline differences.', [T('Address', 'https://jira.bank.example'), K('Sign in with', ['API token', 'OAuth']), T('Account email', 'svc-aapdakavach@bank.example'), S('API token', ['Sign in with', 'API token']), T('Client ID', '', ['Sign in with', 'OAuth']), S('Client secret', ['Sign in with', 'OAuth']), T('Project key', 'DR'), V('Issue type', 'Incident')], ['Address reached', 'Signed in', 'Project and issue type found']],
+'VMware vCenter': ['HTTPS 443, vSphere API', 'Aapda Kavach calls vCenter', 'Reads virtual machine state and powers machines on and off during recovery.', [T('vCenter address', 'vcenter-dr.bank.example'), V('Port', '443')].concat(cred('svc-kavach@vsphere.local')).concat([T('Datacentre', 'DR-DC1'), K('Certificate', ['Check against the bank authority', 'Pin this fingerprint'])]), ['vCenter reached on 443', 'Signed in', 'Can read and power 46 virtual machines']],
+'DNS servers': ['Depends on the kind of DNS', 'Aapda Kavach calls the DNS server', 'Changes a record inside a runbook so users reach the DR site.', [K('Kind of DNS', ['Windows DNS', 'BIND dynamic update', 'Infoblox']), T('Server address', 'dns1.bank.example'), T('Zone', 'bank.example'), T('Domain account', 'BANK\\svc-kavach-dns', ['Kind of DNS', 'Windows DNS']), S('Password', ['Kind of DNS', 'Windows DNS']), T('Key name (TSIG)', 'kavach-key', ['Kind of DNS', 'BIND dynamic update']), S('Key secret', ['Kind of DNS', 'BIND dynamic update']), T('API user', 'svc-kavach', ['Kind of DNS', 'Infoblox']), S('API password', ['Kind of DNS', 'Infoblox']), V('Time records are kept (TTL)', '60 seconds')], ['Server reached', 'Signed in', 'Allowed to change records in the zone (test record added and removed)']],
+'Storage arrays': ['HTTPS 443, array management API', 'Aapda Kavach calls the array', 'Reverses the direction of array replication during recovery.', [K('Array maker', ['NetApp', 'Dell', 'Hitachi', 'HPE', 'Pure Storage']), T('Management address', 'array-dr.bank.example')].concat(cred('svc-kavach')).concat([T('Replication group or relationship', 'cbs_data_rg')]), ['Array reached', 'Signed in', 'Replication group found and healthy']],
+'Firewalls and load balancers': ['HTTPS 443, device API', 'Aapda Kavach calls the device', 'Switches rules or pool members during recovery. Every change is previewed first.', [K('Device', ['F5 BIG-IP', 'Citrix ADC', 'Palo Alto', 'FortiGate', 'Check Point']), T('Management address', 'lb-dr.bank.example'), K('Sign in with', ['API token', 'User name and password']), S('API token', ['Sign in with', 'API token']), T('User name', 'svc-kavach', ['Sign in with', 'User name and password']), S('Password', ['Sign in with', 'User name and password']), T('Partition or device group', 'DR')], ['Device reached', 'Signed in', 'Allowed to change only the named partition']],
+'Security monitoring (SIEM)': ['Syslog over TLS 6514, or HTTPS', 'Aapda Kavach sends to the SIEM', 'Every audit trail entry is forwarded as it is written.', [K('Send as', ['Syslog over TLS', 'Splunk HTTP collector', 'Microsoft Sentinel']), T('Address and port', 'siem.bank.example:6514'), K('Format', ['CEF', 'JSON']), S('Collector token', ['Send as', 'Splunk HTTP collector']), T('Workspace ID', '', ['Send as', 'Microsoft Sentinel']), S('Workspace key', ['Send as', 'Microsoft Sentinel'])], ['Address reached with a trusted certificate', 'Test entry sent', 'Test entry acknowledged']],
+'Prometheus': ['HTTPS 9464, /metrics', 'The bank monitoring calls Aapda Kavach', 'Lets the bank watch the health of Aapda Kavach itself. Nothing about your servers is exposed.', [V('Metrics address', 'https://console.dr.bank.example:9464/metrics'), T('Scrapers allowed from', '10.20.40.0/24'), K('Protect with', ['Bearer token', 'Client certificate', 'Address list only']), S('Bearer token', ['Protect with', 'Bearer token'])], ['Metrics address is answering', 'A scrape from the allowed range worked', 'A scrape from elsewhere was refused']],
+'SNMP': ['UDP 162, SNMP traps', 'Aapda Kavach sends to the monitoring system', 'Sends alerts as traps to the network monitoring system.', [K('Version', ['Version 3', 'Version 2c']), T('Trap receiver', 'nms.bank.example:162'), T('Security name', 'kavach', ['Version', 'Version 3']), K('Authentication', ['SHA-256', 'SHA-1'], ['Version', 'Version 3']), S('Authentication password', ['Version', 'Version 3']), K('Privacy', ['AES-256', 'AES-128'], ['Version', 'Version 3']), S('Privacy password', ['Version', 'Version 3']), S('Community', ['Version', 'Version 2c'])], ['Receiver reached', 'Test trap sent', 'Monitoring system can load the Aapda Kavach MIB file']],
+'AI assistant link (MCP)': ['HTTPS 443, MCP', 'The bank assistant calls Aapda Kavach', 'The bank assistant can ask about readiness, differences and proof. It cannot change anything.', [V('Address to give the assistant', 'https://console.dr.bank.example/mcp'), V('Key it uses', 'bank-assistant (Viewer)'), T('Allowed from', '10.20.60.0/24'), K('It may read', ['Readiness, differences and proof', 'Readiness only'])], ['Address is answering', 'Key accepted with the Viewer role', 'A request to change something was refused']],
+'Microsoft Hyper-V': ['WinRM over HTTPS 5986', 'Aapda Kavach calls the host or cluster', 'Reads virtual machine state and starts replicas during recovery.', [T('Host or cluster address', 'hv-cluster-dr.bank.example'), K('Sign in with', ['Domain account (Kerberos)', 'Local account']), T('Account', 'BANK\\svc-kavach-hv')].concat([K('Password comes from', [VAULT, TYPED]), T('Vault path', '/dr/integrations/hyperv', ['Password comes from', VAULT]), S('Password', ['Password comes from', TYPED]), T('Virtual Machine Manager address, if used', '')]), ['Reached on 5986', 'Signed in', 'Can read replica state for the cluster']],
+'Nutanix': ['HTTPS 9440, Prism API', 'Aapda Kavach calls Prism Central', 'Reads virtual machine state and protection domains.', [T('Prism Central address', 'prism-dr.bank.example'), V('Port', '9440')].concat(cred('svc-kavach')).concat([T('Cluster', 'DR-NTX-01')]), ['Reached on 9440', 'Signed in', 'Protection domains can be read']],
+'Kubernetes': ['HTTPS 6443, Kubernetes API', 'Aapda Kavach calls the cluster', 'Scales workloads down at one site and up at the other.', [T('Cluster address', 'https://k8s-dr.bank.example:6443'), K('Sign in with', ['Service account token', 'Client certificate', 'Config file']), S('Service account token', ['Sign in with', 'Service account token']), T('Namespaces', 'payments, cards'), K('Cluster certificate', ['Check against the bank authority', 'Upload the cluster certificate'])], ['Cluster reached on 6443', 'Signed in', 'Allowed to read and scale in the named namespaces only']],
+'CMDB import': ['HTTPS 443, or a file by SFTP', 'Aapda Kavach calls the CMDB', 'Loads sites, servers and databases from the bank configuration database.', [K('Source', ['ServiceNow CMDB', 'BMC Helix', 'File by SFTP']), T('Address', 'https://bank.service-now.com')].concat(cred('svc_aapdakavach')).concat([T('Only these classes', 'Server, Database Instance'), V('Refresh', 'Every night at 01:00')]), ['Source reached', 'Signed in', '212 records read, 46 match the estate']],
+'OpenTelemetry': ['gRPC 4317 or HTTPS 4318', 'Aapda Kavach sends to the collector', 'Sends traces of Aapda Kavach itself to the bank monitoring.', [T('Collector address', 'otel.bank.example:4317'), K('Protocol', ['gRPC', 'HTTP']), S('Header token, if needed'), V('Share of requests traced', '10%')], ['Collector reached', 'Test trace sent', 'Test trace accepted']],
+'Connector kit': ['Defined by the connector', 'Defined by the connector', 'Add a system that is not in the list. A connector is a signed file that describes its actions.', [T('Connector name', ''), K('It talks by', ['Web API', 'Command over SSH', 'PowerShell']), T('Address', ''), K('Sign in with', ['API token', 'User name and password', 'Vault']), S('API token', ['Sign in with', 'API token']), T('User name', '', ['Sign in with', 'User name and password']), S('Password', ['Sign in with', 'User name and password']), T('Vault path', '', ['Sign in with', 'Vault'])], ['Connector file signature is valid', 'Address reached', 'Its test action ran']],
+'Mail server': ['SMTP 587 with STARTTLS, or 465', 'Aapda Kavach sends to the mail server', 'Used for alerts, approvals and scheduled reports.', [T('Mail server', 'smtp.bank.example'), K('Security', ['STARTTLS on 587', 'TLS on 465', 'None on 25']), K('Sign in', ['User name and password', 'No sign-in, allowed by address']), T('User name', 'aapdakavach@bank.example', ['Sign in', 'User name and password']), S('Password', ['Sign in', 'User name and password']), T('Send as', 'Aapda Kavach <dr-noreply@bank.example>')], ['Mail server reached', 'Signed in', 'Test email delivered to you']],
+'SMS gateway': ['HTTPS 443 or SMPP 2775', 'Aapda Kavach sends to the gateway', 'Used for critical alerts and approvals.', [K('Gateway type', ['Web API', 'SMPP']), T('Address', 'https://sms.bank.example/send'), T('Account or system ID', 'kavach'), S('Password or API key'), T('Sender name', 'AAPDAK'), T('Registered template ID', '', ['Gateway type', 'Web API'])], ['Gateway reached', 'Signed in', 'Test SMS delivered to your phone']],
+'Webhooks': ['HTTPS 443, JSON', 'Aapda Kavach calls your address', 'Pushes events to another tool as they happen.', [T('Address to call', 'https://tools.bank.example/hooks/dr'), K('Events', ['Alerts and runs', 'Alerts only', 'Everything']), S('Signing secret'), K('If it fails', ['Retry for 1 hour', 'Do not retry'])], ['Address reached with a trusted certificate', 'Test event sent', 'Signature accepted']],
+'Microsoft Teams': ['HTTPS 443, outbound', 'Aapda Kavach calls Microsoft', 'Messages and approve or reject buttons in a channel. Needs an outbound connection.', [K('Connect as', ['Bot app', 'Incoming webhook']), T('Tenant ID', '', ['Connect as', 'Bot app']), T('App ID', '', ['Connect as', 'Bot app']), S('App secret', ['Connect as', 'Bot app']), S('Webhook address', ['Connect as', 'Incoming webhook']), T('Channel', 'DR Operations')], ['Microsoft reached through the bank proxy', 'Signed in', 'Test message posted to the channel']],
+'Slack': ['HTTPS 443, outbound', 'Aapda Kavach calls Slack', 'Messages and approvals in a channel. Needs an outbound connection.', [S('Bot token'), S('Signing secret'), T('Channel', '#dr-operations')], ['Slack reached through the bank proxy', 'Signed in', 'Test message posted']],
+'Git': ['SSH 22 or HTTPS 443', 'Aapda Kavach calls the repository', 'Keeps published runbooks as files, so changes can be reviewed like code.', [T('Repository', 'git@git.bank.example:dr/runbooks.git'), V('Branch', 'main'), K('Sign in with', ['SSH key', 'Access token']), S('Access token', ['Sign in with', 'Access token']), T('Key from vault path', '/dr/integrations/git', ['Sign in with', 'SSH key'])], ['Repository reached', 'Signed in', 'Allowed to read and write the branch']],
+'Ansible': ['HTTPS 443, or SSH 22 to a control node', 'Aapda Kavach calls Ansible', 'Runs your existing playbooks as a runbook step.', [K('Run through', ['Automation controller (AWX)', 'A control node over SSH']), T('Address', 'https://awx.bank.example'), S('Access token', ['Run through', 'Automation controller (AWX)']), T('Account', 'kavach', ['Run through', 'A control node over SSH']), T('Key from vault path', '/dr/integrations/ansible', ['Run through', 'A control node over SSH']), T('Inventory', 'dr-site')], ['Address reached', 'Signed in', '14 playbooks or job templates found']],
+'Cyber vault': ['HTTPS 443, read-only', 'Aapda Kavach calls the vault product', 'Reads the state of clean copies. Aapda Kavach changes nothing in the vault.', [K('Product', ['Dell Cyber Recovery', 'IBM', 'Rubrik', 'Cohesity', 'Veritas']), T('Management address', 'crvault.bank.example')].concat(cred('kavach-readonly')), ['Vault management reached', 'Signed in with a read-only account', 'Copies for 6 services can be read']],
+'Kavach AI model': ['Local, or HTTPS 443 outbound', 'Stays on this server, or calls the provider', 'Which model answers Kavach AI questions.', [K('Model runs', ['On this server', 'Amazon Bedrock, in the bank account']), T('Region', 'ap-south-1', ['Model runs', 'Amazon Bedrock, in the bank account']), T('Role to assume', 'arn:aws:iam::...:role/AapdaKavachAI', ['Model runs', 'Amazon Bedrock, in the bank account']), K('Before anything leaves this server', ['Mask server names and addresses', 'Send as is'], ['Model runs', 'Amazon Bedrock, in the bank account'])], ['Model is answering', 'A test question was answered', 'Server names were masked in the test']],
+'Amazon Web Services': ['HTTPS 443, outbound', 'Aapda Kavach calls the provider', 'Reads cloud resources through a role the bank creates. No access keys are stored.', [T('Account ID', '12 digits'), T('Role to assume', 'arn:aws:iam::...:role/AapdaKavachRead'), T('External ID', 'Shown once: ak-7f31-22c9'), T('Regions', 'ap-south-1, ap-south-2'), K('Access', ['Read-only', 'Read, and start recovery'])], ['Provider reached through the bank proxy', 'Role assumed', '15 resources can be read']],
+'Microsoft Azure': ['HTTPS 443, outbound', 'Aapda Kavach calls the provider', 'Reads cloud resources through an app registration the bank creates.', [T('Tenant ID', ''), T('Subscription ID', ''), T('App (client) ID', ''), K('Prove identity with', ['Certificate', 'Client secret']), S('Client secret', ['Prove identity with', 'Client secret']), K('Access', ['Reader', 'Reader, and start recovery'])], ['Provider reached through the bank proxy', 'Signed in', '7 resources can be read']]
+};
+C['Connect an account'] = C['Amazon Web Services'];
+return C[name] || null;
+}
+drill(key, el) {
+var D = {
+'Protected services': ['Protected services: 3 of 6', 'A service is protected when it is replicating inside its limit, has had a real drill in policy, and has no blocking difference.', ['Service', 'State', 'Why'], [['Core Banking', 'Protected', '96% ready, drilled 14 Nov'], ['Payments Gateway', 'Protected', '91% ready, drill running today'], ['Card Switch', 'Protected', '88% ready, drilled 7 Nov'], ['Internet Banking', 'Exposed', 'Replication 22 min behind, limit 15'], ['Treasury', 'Exposed', 'No real drill for 190 days'], ['Data Warehouse', 'Disrupted', 'Replication stopped at 06:50']], '3 protected + 2 exposed + 1 disrupted = 6 services', 'Open Live Status', 'Status.dc.html'],
+'Needing action': ['Needing action: 3', 'Services that are exposed or disrupted right now, worst first.', ['Service', 'State', 'Next step'], [['Data Warehouse', 'Disrupted', 'Free log space, then restart replication'], ['Internet Banking', 'Exposed', 'No action: catches up when the batch ends'], ['Treasury', 'Exposed', 'Fix the patch difference, then run the drill']], '2 exposed + 1 disrupted = 3', 'Open Alerts', 'Alerts.dc.html'],
+'Exposure per hour': ['Exposure per hour: ₹18 lakh', 'The cost of one hour of outage, for services that are exposed or disrupted and have a cost set.', ['Service', 'Cost per hour', 'Counted'], [['Internet Banking', '₹18,00,000 (sample)', 'Yes: exposed'], ['Treasury', 'Not set', 'No cost entered'], ['Data Warehouse', 'Not set', 'No cost entered']], '1 of 3 services costed: ₹18,00,000 per hour', 'Set the missing costs', 'EstateServices.dc.html'],
+'Real drills, 90 days': ['Real drills in the last 90 days: 4 of 6', 'Simulated runs are not counted.', ['Service', 'Last real drill', 'Recovery time'], [['Core Banking', '14 Nov 2026', '38 min of 1 h'], ['Card Switch', '7 Nov 2026', '44 min of 1 h'], ['Internet Banking', '6 Oct 2026', '47 min of 1 h'], ['Payments Gateway', '12 Sep 2026', '52 min of 1 h'], ['Treasury', '14 May 2026', '190 days ago: not counted'], ['Data Warehouse', '2 Apr 2026', '232 days ago: not counted']], '4 services drilled in 90 days, 2 not', 'Open Drills', 'Drills.dc.html'],
+'Components healthy': ['Components healthy: 41 of 46', 'These 5 need attention. The other 41 are answering and inside their limits.', ['Component', 'Service', 'What is wrong'], [['dwh-db-d01', 'Data Warehouse', 'Sign-in refused: password expired'], ['dwh-db-p01', 'Data Warehouse', 'Replication to DR stopped'], ['ibank-db-d01', 'Internet Banking', '22 min behind production'], ['ibank-app-p02', 'Internet Banking', 'In maintenance until 20 Nov'], ['trs-db-d01', 'Treasury', 'Database patch differs from production']], '41 healthy + 5 needing attention = 46', 'Open Estate', 'Estate.dc.html'],
+'Open alerts': ['Open alerts: 3', 'Drill alerts are kept apart and are not counted here.', ['Alert', 'Severity', 'Open for'], [['Data Warehouse: replication has stopped', 'Critical', '3 h 12 min'], ['Internet Banking: replication is behind', 'Major', '22 min'], ['Treasury: drill overdue', 'Major', '2 days']], '1 critical + 2 major = 3', 'Open Alerts', 'Alerts.dc.html'],
+'Replication links in step': ['Replication links in step: 9 of 11', 'Every link between the primary and DR sites.', ['Service', 'Links', 'State'], [['Core Banking', '2', 'Both in step, 2 s behind'], ['Payments Gateway', '2', 'Both in step, 4 s behind'], ['Card Switch', '2', 'Both in step, 3 s behind'], ['Treasury', '2', 'Both in step, 9 s behind'], ['Internet Banking', '2', '1 in step, 1 behind by 22 min'], ['Data Warehouse', '1', 'Stopped since 06:50']], '9 in step + 1 behind + 1 stopped = 11 links', 'Open Sites', 'Sites.dc.html'],
+'Longest delay': ['Longest delay: 22 min', 'Delay on each service, longest first. A stopped link has no delay figure.', ['Service', 'Delay now', 'Limit'], [['Internet Banking', '22 min', '15 min: over'], ['Treasury', '9 s', '30 min'], ['Payments Gateway', '4 s', '15 min'], ['Card Switch', '3 s', '15 min'], ['Core Banking', '2 s', '15 min']], 'Longest is Internet Banking at 22 min', 'Open Sites', 'Sites.dc.html'],
+'Runs in progress': ['Runs in progress: 1', 'Runs that have started and not finished.', ['Run', 'Type', 'Where it is'], [['Payments Gateway switchover', 'Real drill', 'Step 4 of 9, waiting for approval since 10:28']], '1 run in progress', 'Open the live run', 'Run.dc.html'],
+'Drill pass rate': ['Drill pass rate: 90%', 'Real drills in the last six months.', ['Month', 'Passed', 'Failed'], [['June', '3', '0'], ['July', '2', '1: Treasury, step timed out'], ['August', '4', '0'], ['September', '3', '0'], ['October', '3', '1: Internet Banking, step 5'], ['November', '4', '0']], '19 passed of 21 = 90%', 'Open Drills', 'Drills.dc.html'],
+'Average recovery time': ['Average recovery time: 45 min', 'Measured at the last real drill of each drilled service.', ['Service', 'Measured', 'Allowed'], [['Core Banking', '38 min', '1 h'], ['Card Switch', '44 min', '1 h'], ['Internet Banking', '47 min', '1 h'], ['Payments Gateway', '52 min', '1 h']], '(38 + 44 + 47 + 52) / 4 = 45 min', 'Open the drill reports', 'Proof.dc.html'],
+'Time to acknowledge an alert': ['Time to acknowledge an alert: 6 min', 'Average minutes from an alert being raised to a person acknowledging it.', ['Month', 'Average', 'Alerts'], [['June', '14 min', '41'], ['July', '12 min', '38'], ['August', '10 min', '35'], ['September', '8 min', '30'], ['October', '7 min', '24'], ['November', '6 min', '19']], 'November average: 6 min, down from 14 in June', 'Open Alerts', 'Alerts.dc.html'],
+'Differences closed in 30 days': ['Differences closed in 30 days: 12 of 17', 'Baseline differences opened in the last 30 days.', ['Service', 'Closed', 'Still open'], [['Internet Banking', '4', '3'], ['Treasury', '2', '1'], ['Data Warehouse', '1', '1'], ['Core Banking', '3', '0'], ['Payments Gateway', '1', '0'], ['Card Switch', '1', '0']], '12 closed + 5 still open = 17', 'Open Baseline', 'Baseline.dc.html'],
+'Components compared': ['Components compared: 46', 'Every component was compared with its approved baseline at 06:00 today.', ['Service', 'Components', 'Result'], [['Core Banking', '9', 'All match'], ['Payments Gateway', '8', 'All match'], ['Card Switch', '7', 'All match'], ['Internet Banking', '9', '3 minor differences'], ['Treasury', '7', '1 blocking difference'], ['Data Warehouse', '6', '1 blocking difference']], '9 + 8 + 7 + 9 + 7 + 6 = 46', 'Open Estate', 'Estate.dc.html'],
+'Open differences': ['Open differences: 5', 'Differences from the approved baseline that nobody has fixed or accepted.', ['Component', 'What differs', 'Risk'], [['trs-db-d01', 'Database patch 8.0.36, production has 8.0.39', 'Blocking'], ['dwh-db-d01', 'Log disk 200 GB, baseline 500 GB', 'Blocking'], ['ibank-app-d01', 'Java 17.0.9, baseline 17.0.12', 'Minor'], ['ibank-app-d02', 'Open files limit 4096, baseline 65536', 'Minor'], ['ibank-web-d01', 'TLS 1.2 still allowed', 'Minor']], '2 blocking + 3 minor = 5, across 3 services', 'Open Baseline', 'Baseline.dc.html'],
+'Can break recovery': ['Can break recovery: 2', 'Blocking differences. A drill or failover is likely to fail until these are fixed.', ['Component', 'What differs', 'Effect'], [['trs-db-d01', 'Database patch 8.0.36, production has 8.0.39', 'Role switch can fail: blocks the 28 Nov drill'], ['dwh-db-d01', 'Log disk 200 GB, baseline 500 GB', 'Replication stopped today when it filled']], '2 blocking: Treasury and Data Warehouse', 'Open Baseline', 'Baseline.dc.html'],
+'Accepted differences': ['Accepted differences: 7', 'Each has a reason, an owner and a review date. They do not lower readiness.', ['Component', 'Accepted difference', 'Owner, review'], [['ibank-db-d01', 'Memory 32 GB, production 64 GB', 'DR tool owner, Feb 2027'], ['cbs-app-d01', '8 processor cores, production 16', 'DR tool owner, Feb 2027'], ['cbs-app-d02', '8 processor cores, production 16', 'DR tool owner, Feb 2027'], ['pay-web-d01', 'One web server at DR, two at production', 'Head of Payments, Jan 2027'], ['crd-db-d01', 'Slower disk tier', 'Head of Cards, Mar 2027'], ['trs-app-d01', 'Reporting module not installed', 'Head of Treasury, Mar 2027'], ['dwh-app-d01', 'No DR copy of the test schema', 'Head of Data, Apr 2027']], '7 accepted, all inside their review date', 'Open Baseline', 'Baseline.dc.html'],
+'Clean copies held': ['Clean copies held: 84', 'Copies in the vault that passed the scanner.', ['Service', 'Clean copies', 'Newest'], [['Core Banking', '14', 'Today 02:04'], ['Payments Gateway', '14', 'Today 02:04'], ['Card Switch', '14', 'Today 02:04'], ['Internet Banking', '14', 'Today 02:04'], ['Treasury', '14', 'Yesterday 02:03'], ['Data Warehouse', '14', '18 Nov 02:05']], '6 services × 14 copies = 84', 'Open Cyber resilience', 'Cyber.dc.html'],
+'Warnings from the vault': ['Warnings from the vault: 1', 'Raised by the bank vault product, not by Aapda Kavach.', ['Service', 'Warning', 'Since'], [['Data Warehouse', 'Unusual change rate: last copy 61 GB, usual 42 GB', 'Today 02:04']], '1 warning', 'Open Cyber resilience', 'Cyber.dc.html'],
+'From the bank vault': ['Passwords from the bank vault: 38 of 46', 'Components whose passwords are fetched at run time and never stored.', ['Service', 'From vault', 'Other'], [['Core Banking', '9', '0'], ['Payments Gateway', '8', '0'], ['Card Switch', '5', '2 stored'], ['Internet Banking', '7', '2 SSH keys'], ['Treasury', '4', '3 stored'], ['Data Warehouse', '5', '1 stored']], '38 from vault + 6 stored + 2 SSH keys = 46', 'Open Passwords and keys', 'Credentials.dc.html'],
+'Stored, encrypted': ['Stored, encrypted: 6', 'Passwords typed into Aapda Kavach and kept encrypted.', ['Service', 'Components', 'Which'], [['Treasury', '3', 'trs-db-p01, trs-db-d01, trs-app-p01'], ['Card Switch', '2', 'crd-db-p01, crd-db-d01'], ['Data Warehouse', '1', 'dwh-app-p01']], '3 + 2 + 1 = 6', 'Open Passwords and keys', 'Credentials.dc.html'],
+'SSH keys': ['SSH keys: 2', 'Linux servers that sign in with a key.', ['Component', 'Service', 'Key'], [['ibank-app-p02', 'Internet Banking', 'ed25519, from vault path'], ['ibank-app-d02', 'Internet Banking', 'ed25519, from vault path']], '2 components', 'Open Passwords and keys', 'Credentials.dc.html'],
+'Need attention': ['Need attention: 1', 'Sign-ins that failed at the last daily check.', ['Component', 'Account', 'Problem'], [['dwh-db-d01', 'kavach_mon', 'Password expired in the vault on 19 Nov']], '1 component', 'Open Passwords and keys', 'Credentials.dc.html']
+};
+var d = D[key], rows, title, desc, cols, sum, cta = 'Close', href = '';
+if (d) { title = d[0]; desc = d[1]; cols = d[2]; rows = d[3]; sum = d[4]; cta = d[5]; href = d[6]; }
+else {
+var h = el.querySelector('h2'), texts = el.querySelectorAll('svg text'), tot = 0; rows = [];
+var divs = el.querySelectorAll('div');
+for (var i = 0; i < divs.length; i++) { var c = divs[i].children; if (c.length === 3 && /^[0-9]/.test(c[2].textContent.trim())) { var n = c[2].textContent.trim(); rows.push([c[1].textContent.trim(), n, '']); tot += parseFloat(n) || 0; } }
+if (!rows.length) { var kids = el.children; rows.push([kids[0] ? kids[0].textContent.trim() : key, kids[1] ? kids[1].textContent.trim() : '', kids[2] ? kids[2].textContent.trim() : '']); }
+title = (h ? h.textContent.trim() : (key === 'auto' ? 'Details' : key)) + (texts.length ? ': ' + texts[0].textContent.trim() + ' ' + (texts[1] ? texts[1].textContent.trim() : '') : '');
+desc = 'The parts that make up this figure, as shown on this screen.'; cols = ['Part', 'Count', ''];
+sum = rows.length > 1 && tot ? rows.map(function (r) { return r[1]; }).join(' + ') + ' = ' + tot : 'This figure comes straight from the latest reading.';
+href = '';
+}
+this.setState({ toast: null, panel: { kind: 'list', phase: 'form', title: title, desc: desc, how: '', dir: '', cols: cols, rows: rows, sum: sum, href: href, fields: [], choices: [], checks: [], cta: cta, done: '', extra: '', kicker: 'What is behind this number' } });
+}
+act(label, ctx) {
+var c = (label === 'Set up' || label === 'Manage' || label === 'Connect') ? this.conn(ctx) : (label === 'Connect an account' ? this.conn('Amazon Web Services') : null);
+if (c) {
+var manage = label === 'Manage';
+this.setState({ toast: null, panel: { kind: 'conn', phase: 'form', title: (manage ? 'Manage ' : 'Connect ') + (label === 'Connect an account' ? 'Amazon Web Services' : ctx), desc: c[2], how: c[0], dir: c[1], fields: c[3].map(function (f) { var g = JSON.parse(JSON.stringify(f)); if (manage && g.k === 'text' && !g.v) { g.v = g.ph; } return g; }), choices: [], checks: c[4], cta: 'Test connection', done: (manage ? 'Saved: ' : 'Connected: ') + ctx, extra: '', kicker: manage ? 'Connected, last checked 40 seconds ago' : 'New connection' } });
+return;
+}
+var Q = {
+'Save': 'Saved. The change is in the audit trail.', 'Save role': 'Role saved. 3 people now have these permissions.', 'Apply': 'Applied to 12 components.',
+'Accept': 'Accepted and added to the estate as a draft.', 'Acknowledge': 'Acknowledged. The on-call page has stopped.', 'Test again': 'Tested again: still failing. See the reason above.',
+'Scan': 'Scan started. Results appear as servers answer.', 'Check again': 'Checked again: 1 item still needs a fix.', 'Check again now': 'Compared 46 components just now. 5 differences are still open.',
+'Back up now': 'Backup started. It takes about 2 minutes.', 'Archive now': 'Archive started. The seal is checked when it ends.', 'Send me a test': 'Test message sent to your email and phone.',
+'Dismiss': 'Dismissed.', 'Test on all 12': 'Testing 12 sign-ins. 12 of 12 worked.', 'Test sign-in': 'Test sign-in worked for your account.', 'Extend': 'Maintenance extended by 4 hours.',
+'Pause': 'Run paused after the current step.', 'Keep it paused': 'The run stays paused.', 'Clear filters': 'Filters cleared.', 'Copy details for support': 'Details copied. Reference AK-7F31.',
+'Search': 'Showing the 6 guides that match.', 'Back': 'Back to the previous step.', 'Skip these two for now': 'Skipped. They stay on the to-do list.', 'New chat': 'New chat started. The last one is saved under Today.',
+'Ask': 'Type a question first, or pick one of the suggestions.', 'Show again': 'Recovery codes shown for 60 seconds.', 'End maintenance now': 'Maintenance ended. Alerts are on again for this pair.',
+'Restore the original': 'Original wording restored.', 'Lock v6': 'v6 is locked and can no longer be changed.', 'Print': 'Sent to the printer set for this computer.', 'Repeat': 'Exercise restarted.',
+'Open the run': 'Opening the live run.', 'Explain': 'Kavach AI is reading the alert. The explanation is on the right.', 'Download the template': 'Template downloaded: estate_template.xlsx',
+'Save this list as a file': 'Saved as server_checks.txt', 'Change': 'Changed.', 'Details': 'Company sign-on is managed under Admin, Sign-in.',
+'Test connection': 'Tested: address reached, signed in, read-only check passed.',
+'Ask for approval': 'Sent to the DR Manager for approval.', 'Try again': 'Tried again: the list loaded.'
+};
+var F = function (l, v) { return { l: l, k: 'text', v: v, ph: '', w: null }; };
+var P = {
+'Change': ['form', 'Change a setting', 'The change takes effect at once and is written to the audit trail with the old and new value.', [F('Setting', ctx || 'This setting'), F('New value', ''), F('Reason, for the audit trail', '')], [], 'Save change', 'Changed: ' + (ctx || 'setting')],
+'Set up': ['form', 'Connect ' + (ctx || 'a system'), 'Aapda Kavach tests the connection before it saves anything.', [F('Address', 'https://'), F('Sign in with', 'Vault: /dr/integrations/'), F('Used by role', 'DR Manager')], ['Test the connection before saving'], 'Test and connect', 'Connected: ' + (ctx || 'system')],
+'Manage': ['form', 'Manage ' + (ctx || 'this connection'), 'Connected and answering. Last checked 40 seconds ago.', [F('Address', 'https://'), F('Sign in with', 'Vault: /dr/integrations/'), F('Used by role', 'DR Manager')], ['Connection is on'], 'Save', 'Saved: ' + (ctx || 'connection')],
+'Edit sign-in details': ['form', 'Sign-in details for ' + (ctx || 'this component'), 'Nothing typed here is ever shown again.', [F('Comes from', 'Bank vault'), F('Vault path', '/dr/'), F('Account', 'kavach_mon')], ['Test before saving'], 'Test and save', 'Sign-in details saved and tested'],
+'New action': ['form', 'New action', 'Actions are reviewed before they can be used in a published runbook.', [F('Name', ''), F('Runs over', 'Linux SSH'), F('Command or statement', ''), F('Expected result', ''), F('Undo action', 'None')], ['Approver must sign in again'], 'Save as draft', 'Action saved as a draft'],
+'New check': ['form', 'New check', 'Checks use the read-only watching account.', [F('What to check', 'Disk space'), F('Applies to', 'All servers'), F('Every', '5 minutes'), F('Major at', '80% full'), F('Critical at', '90% full')], [], 'Add check', 'Check added. First result within 5 minutes.'],
+'Add a recovery pair': ['form', 'Add a recovery pair', 'Links one production component to its DR partner.', [F('Production component', ''), F('DR partner', ''), F('Replication profile', 'Oracle DG, synchronous'), F('If production fails', 'Fail over with approval')], ['Start in maintenance until it is tested'], 'Add pair', 'Recovery pair added'],
+'Add a service': ['form', 'Add a business service', 'Targets set here drive every readiness figure.', [F('Name', ''), F('Owner', ''), F('Impact tier', 'Tier 2'), F('Recovery time allowed', '4 hours'), F('Data loss allowed', '30 minutes')], [], 'Add service', 'Service added'],
+'Add a function': ['form', 'Add a function to ' + (ctx || 'this service'), 'A function is one thing the service does for its users.', [F('Function name', ''), F('Depends on', '')], [], 'Add function', 'Function added'],
+'Add a gateway': ['form', 'Add a gateway', 'A gateway calls out to Aapda Kavach. Nothing is opened inwards.', [F('Name', 'gw-'), F('Network it serves', '10.'), F('Pairing code', 'K7Q2-9FXM-31LD')], [], 'Add gateway', 'Gateway added. Waiting for it to call in.'],
+'Add a site': ['form', 'Add a site', 'A site is a data centre or cloud region. Servers and databases are then placed in it.', [F('Site name', ''), F('Role', 'DR site'), F('City or region', ''), F('Network ranges', '10.'), F('Reached', 'Directly, or through a gateway')], ['Aapda Kavach can reach this site directly'], 'Add site', 'Site added. Add its servers next.'],
+'New rule': ['form', 'New rule: when an alert fires', 'A rule can suggest a runbook or start a low-risk one. It can never declare a disaster.', [F('When this happens', 'Replication stopped for 30 minutes'), F('On', 'Any Tier 1 service'), F('Then', 'Suggest the runbook: Restart replication'), F('Tell', 'Operator on shift')], ['Needs approval before it starts anything'], 'Add rule', 'Rule added and switched on'],
+'Add a group': ['form', 'Add a group to this plan', 'Runbooks in one group run in parallel. Groups run one after another.', [F('Group name', 'Group 4'), F('Runbooks in it', ''), F('Starts after', 'Group 3 finishes'), F('Then wait', 'No wait')], [], 'Add group', 'Group added to the plan'],
+'Raise a support request': ['form', 'Raise a support request', 'Goes to Phoenix Software support. Nothing is sent until you press the button.', [F('What is wrong, in one line', ''), F('How urgent', 'Normal: answer in working hours'), F('Call me on', '+91 ')], ['Attach a support file with passwords removed'], 'Send request', 'Support request AK-10482 sent'],
+'Promote the standby': ['danger', 'Promote the standby console?', 'The copy at the primary site becomes the active Aapda Kavach.', [F('Reason', ''), F('Second approver', 'Platform owner')], [], 'Promote the standby', 'Standby promoted. This console is now read-only.', 'Do this only when this server is lost or about to be shut down. Two active consoles must never run at once.'],
+'Edit wording': ['form', 'Edit the message wording', 'The facts in curly brackets are filled in by Aapda Kavach and cannot be removed.', [F('Subject', 'Approval needed: {step}, {service}'), F('First line', 'Step {step} is waiting for your approval'), F('Closing line', 'For safety you cannot approve from this email.')], ['Use the same wording for SMS and Teams'], 'Save wording', 'Wording saved'],
+'Roll back': ['form', 'Roll back the finished steps', 'Undo steps run in reverse order. About 12 minutes. Production serves again at the end.', [F('Step 3', 'Start application servers at production'), F('Step 2', 'Start web servers at production'), F('Reason', '')], ['I understand users are affected for about 12 minutes'], 'Ask for approval to roll back', 'Roll back sent for approval'],
+'Save as draft': ['form', 'Save as a draft', 'A draft is visible only to Super Admins until it is created.', [F('Note for yourself', '')], [], 'Save draft', 'Draft saved'],
+'Show a pairing code': ['form', 'Pairing code', 'Type this code into the gateway installer. It works once and expires in 15 minutes.', [F('Code', 'K7Q2-9FXM-31LD')], [], 'Done', 'Pairing code copied'],
+'Raise a ticket to fix': ['form', 'Raise a ticket', 'Sent to the service desk with the difference attached.', [F('Summary', 'DR database patch differs from production'), F('Assign to', 'Database team'), F('Priority', 'High: blocks the Treasury drill')], [], 'Raise ticket', 'Ticket INC-20418 raised'],
+'Accept with a reason': ['form', 'Accept this difference', 'An accepted difference no longer lowers readiness. It needs an owner and a review date.', [F('Reason', ''), F('Owner', 'DR tool owner'), F('Review on', '20 Feb 2027')], [], 'Accept difference', 'Difference accepted'],
+'Approved baselines': ['form', 'Approved baselines', 'The approved build each component must match.', [F('Current baseline', 'Approved 3 Nov 2026 by DR Manager'), F('Previous', 'Approved 12 Aug 2026')], [], 'Close', 'Baseline list closed'],
+'Preview roll back': ['form', 'Roll back steps 4 to 1', 'Undo steps run in reverse. About 12 minutes. Production serves again at the end.', [F('Step 4', 'Switch database roles back'), F('Step 3', 'Start application servers at production'), F('Step 2', 'Start web servers at production')], ['I understand users are affected for about 12 minutes'], 'Ask for approval to roll back', 'Roll back sent for approval'],
+'Set up a session': ['form', 'Set up a practice session', 'Trainees see pretend servers only.', [F('Trainee', ''), F('Fault to inject', 'Replication stops'), F('When', 'Now')], ['Let me watch live'], 'Start session', 'Practice session started'],
+'Delete': ['danger', 'Delete ' + (ctx || 'this item') + '?', 'People with this role move to the role it was based on.', [F('Type the name to confirm', '')], [], 'Delete', 'Deleted', 'This cannot be undone. The deletion is written to the audit trail.'],
+'Abort': ['danger', 'Abort the run?', 'The run stops where it is. Nothing is undone.', [F('Reason', '')], [], 'Abort the run', 'Run aborted. A record has been kept.', 'The database may already have switched. Aborting can leave the service half moved.'],
+'Abort the run': ['danger', 'Abort the run?', 'The run stops where it is. Nothing is undone.', [F('Reason', '')], [], 'Abort the run', 'Run aborted. A record has been kept.', 'The database has already switched. Aborting leaves the service on the DR site with one server.'],
+'Reject': ['danger', 'Reject this request?', 'The person who asked is told, with your reason.', [F('Reason', '')], [], 'Reject', 'Rejected. The requester has been told.', 'The run stays paused until someone approves or it is aborted.'],
+'Remove': ['danger', 'Remove this passkey?', 'You can still sign in with your authenticator app.', [], [], 'Remove passkey', 'Passkey removed', 'You will need to add a passkey again on this device to use it.'],
+'Replace': ['form', 'Replace the authenticator app', 'Scan the new code with your phone, then type the 6 digits it shows.', [F('6-digit code', '')], [], 'Replace', 'Authenticator app replaced'],
+'Sign out': ['danger', 'Sign out of the other device?', 'Edge on Windows, DR site network, signed in yesterday 18:05.', [], [], 'Sign out that device', 'Signed out on the other device', 'Anything unsaved on that device is lost.'],
+'Restore': ['danger', 'Restore from a backup?', 'Choose the backup to restore.', [F('Backup', 'Today 02:00, 412 MB')], [], 'Restore', 'Restore started. The console restarts when it ends.', 'Everything changed since that backup is lost. Running drills are stopped.'],
+'Reseal and rotate': ['danger', 'Reseal the emergency accounts?', 'New offline codes are printed once for the safe.', [F('Second approver', 'Head of IT operations')], [], 'Reseal and rotate', 'Emergency accounts resealed', 'The old offline codes stop working at once.'],
+'Make this the baseline': ['danger', 'Make the current values the baseline?', 'DR will then be compared with what is running today.', [F('Reason', ''), F('Second approver', 'DR Manager')], [], 'Ask for approval', 'Sent for approval', 'Open differences on this component disappear once approved.'],
+'Download PDF': ['file', 'Download as PDF', 'The file carries a seal so a reader can check it was not changed.', [F('Period', 'Last 12 months'), F('Marking', 'Confidential')], ['Include signature lines', 'Include the full step log'], 'Download PDF', 'PDF downloaded'],
+'Download Excel': ['file', 'Download as Excel', 'One sheet per table, with the same figures as the screen.', [F('Period', 'Last 12 months')], ['Include simulated runs on a separate sheet'], 'Download Excel', 'Excel file downloaded'],
+'Download now': ['file', 'Download this report', 'Uses the columns and filters set on this screen.', [F('Format', 'PDF and Excel')], [], 'Download', 'Report downloaded'],
+'Export': ['file', 'Export the audit trail', 'The export is sealed, and the export itself is recorded.', [F('Period', 'Today'), F('Format', 'CSV, sealed')], [], 'Export', 'Audit trail exported'],
+'Export signed proof pack': ['file', 'Export a signed proof pack', 'One sealed file for a regulator: drill summary, run detail and audit trail.', [F('Drill', 'Core Banking, 14 Nov 2026'), F('For', 'Internal audit')], ['Include the audit trail for that night'], 'Export pack', 'Proof pack exported'],
+'Download the package': ['file', 'Download the gateway package', 'Signed by Phoenix Software. Install it on one server inside the closed network.', [F('For', 'Linux, 64-bit')], [], 'Download', 'Gateway package downloaded'],
+'Create a support file': ['file', 'Create a support file', 'Logs and settings for Phoenix Software support. Passwords and server names are removed.', [F('Covers', 'Last 24 hours')], ['Let me review it before it is saved'], 'Create file', 'Support file created'],
+'Create a signing request': ['file', 'Create a certificate signing request', 'Give this file to the bank certificate authority.', [F('Name on the certificate', 'console.dr.bank.example')], [], 'Create request', 'Signing request created'],
+'Choose a file': ['drop', 'Load the estate spreadsheet', 'Rows are checked before anything is added.', [], [], 'Check the file', 'File checked: 44 rows read, 2 need a fix', 'Excel, in the template layout'],
+'Import a template file': ['drop', 'Import a runbook template', 'The template becomes a draft you can edit.', [], [], 'Import', 'Template imported as a draft', 'A template file exported from Aapda Kavach'],
+'Load a licence file': ['drop', 'Load a licence file', 'The signature is checked before the licence is applied.', [], [], 'Check and apply', 'Licence applied. Valid to 31 Mar 2028.', 'The signed file from Phoenix Software'],
+'Upload an upgrade file': ['drop', 'Upload an upgrade', 'A backup is taken first. You can roll back afterwards.', [], ['Take a backup first'], 'Check the file', 'Upgrade file checked. Ready to install.', 'The signed offline upgrade file'],
+'Upload new details': ['drop', 'Upload identity provider details', 'Sign-in is tested with your own account before the change is kept.', [], [], 'Upload and test', 'New sign-on details tested and saved', 'The metadata file from the bank identity team'],
+'Replace certificate': ['drop', 'Replace the console certificate', 'The console keeps running while the certificate is changed.', [], [], 'Check and replace', 'Certificate replaced. Valid to 22 Jun 2028.', 'Certificate and chain, from the bank certificate authority']
+};
+var p = P[label];
+if (!p && /^(Draft a runbook|Explain a failed step|Group related alerts|Summarise readiness)/.test(label)) { this.say('Kavach AI has started. The answer appears in the conversation.'); return; }
+if (!p) { this.say(Q[label] || (label + ': done.')); return; }
+this.setState({ toast: null, panel: { kind: p[0], phase: 'form', title: p[1], desc: p[2], how: '', dir: '', fields: p[3], choices: (p[4] || []).map(function (c) { return { l: c, on: true }; }), checks: [], cta: p[5], done: p[6], extra: p[7] || '', kicker: ctx && p[1].indexOf(ctx) < 0 ? ctx : 'Aapda Kavach' } });
+}
+renderVals() {
+var self = this, st = this.state || {}, p = st.panel;
+var upd = function (fn) { var q = JSON.parse(JSON.stringify(self.state.panel)); fn(q); self.setState({ panel: q }); };
+var tested = !!p && p.kind === 'conn' && p.phase === 'tested';
+var picks = {};
+if (p) { p.fields.forEach(function (f) { if (f.k === 'pick') { picks[f.l] = f.v; } }); }
+var fields = [];
+if (p) { p.fields.forEach(function (f, i) {
+if (f.w && picks[f.w[0]] !== f.w[1]) { return; }
+fields.push({ l: f.l, v: f.v, ph: f.ph || '', isText: f.k === 'text', isSecret: f.k === 'secret', isPick: f.k === 'pick',
+set: function (e) { var v = e.target.value; upd(function (q) { q.fields[i].v = v; q.phase = 'form'; }); },
+opts: (f.opts || []).map(function (o) { var on = o === f.v; return { t: o, pressed: on ? 'true' : 'false', border: on ? '2px solid #1B4DBE' : '1px solid #98A2B3', weight: on ? '600' : '500', pick: function () { upd(function (q) { q.fields[i].v = o; q.phase = 'form'; }); } }; }) });
+}); }
+return {
+open: !!p, title: p ? p.title : '', desc: p ? p.desc : '', kicker: p ? p.kicker : '',
+cta: p ? (tested ? 'Save connection' : p.cta) : '',
+isConn: !!p && p.kind === 'conn', how: p ? p.how : '', dir: p ? p.dir : '', tested: tested, checks: p ? p.checks : [],
+isDanger: !!p && p.kind === 'danger', isNormal: !!p && p.kind !== 'danger' && !(p.kind === 'list' && p.href),
+isList: !!p && p.kind === 'list', isListLink: !!p && p.kind === 'list' && !!p.href, h1: p && p.cols ? p.cols[0] : '', h2: p && p.cols ? p.cols[1] : '', h3: p && p.cols ? p.cols[2] : '', rows: p && p.rows ? p.rows.map(function (r) { return { a: r[0], b: r[1], c: r[2] }; }) : [], sum: p ? p.sum || '' : '', href: p ? p.href || '' : '', warn: p ? p.extra : '',
+hasDrop: !!p && p.kind === 'drop', dropNote: p ? p.extra : '',
+hasNote: !!p && p.kind !== 'danger' && p.kind !== 'list',
+note: p && p.kind === 'conn' ? (tested ? 'All checks passed. Save to start using this connection. It is tested again every 5 minutes.' : 'Nothing is saved until the test passes. Passwords, tokens and keys are kept encrypted and are never shown again.') : 'Nothing changes until you press the button below. Every change is written to the audit trail with your name.',
+fields: fields,
+choices: p ? p.choices.map(function (c, i) { return { l: c.l, on: c.on, flip: function () { upd(function (q) { q.choices[i].on = !q.choices[i].on; }); } }; }) : [],
+hasToast: !!st.toast, toast: st.toast || '',
+close: function () { self.setState({ panel: null }); },
+confirm: function () { if (p && p.kind === 'list') { self.setState({ panel: null }); return; } if (p && p.kind === 'conn' && p.phase !== 'tested') { upd(function (q) { q.phase = 'tested'; }); return; } self.say(p ? p.done : 'Done'); }
+};
+}
+}
+</script>
+</body>
+</html>

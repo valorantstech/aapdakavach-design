@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1B4DBE}a:hover{color:#163F9C}
+@property --ak-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes ak-spin{to{--ak-a:360deg}}
+@keyframes ak-run{from{left:0}to{left:100%}}
+@keyframes ak-stop{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:.4}}
+.ak-pk{position:absolute;top:-4px;width:10px;height:10px;margin-left:-5px;border-radius:50%;box-shadow:0 0 8px currentColor;animation:ak-run 2.4s linear infinite}
+.ak-stop{position:absolute;top:-4px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;animation:ak-stop 1.4s ease-in-out infinite}
+@keyframes ak-fade{from{opacity:0}}
+@keyframes ak-draw{to{stroke-dashoffset:0}}
+@keyframes ak-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes ak-drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(90px,40px) scale(1.3)}}
+@keyframes ak-drift2{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-110px,-30px) scale(.9)}}
+@keyframes ak-shine{to{background-position:-200% 0}}
+@keyframes ak-blink{50%{opacity:0}}
+@keyframes ak-dots{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+main{animation:ak-fade .45s ease}
+tbody tr{transition:background-color .15s ease}tbody tr:hover{background-color:#F3F6FB}
+.ak-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:ak-draw 1.6s ease .2s forwards}
+.ak-blob{position:absolute;border-radius:50%;filter:blur(56px);pointer-events:none}
+.ak-b1{animation:ak-drift1 14s ease-in-out infinite}.ak-b2{animation:ak-drift2 18s ease-in-out infinite}
+.ak-ai{border:1.5px solid transparent!important;background:linear-gradient(#FFFFFF,#FFFFFF) padding-box,conic-gradient(from var(--ak-a),#EA580C,#0B1F33 35%,#1B4DBE 55%,#0B1F33 80%,#EA580C) border-box!important;animation:ak-spin 5s linear infinite}
+[data-ak-theme="dark"] .ak-ai{background:linear-gradient(#111E2E,#111E2E) padding-box,conic-gradient(from var(--ak-a),#EA580C,#0B1F33 35%,#1B4DBE 55%,#0B1F33 80%,#EA580C) border-box!important}
+.ak-shimmer{background:linear-gradient(90deg,#0B1F33,#1B4DBE,#EA580C,#0B1F33);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:ak-shine 4s linear infinite}
+[data-ak-theme="dark"] .ak-shimmer{background-image:linear-gradient(90deg,#C4B5FD,#8AB4FF,#67E8F9,#FDBA74,#C4B5FD)}
+.ak-caret::after{content:'';display:inline-block;width:2px;height:1.05em;margin-left:2px;background:currentColor;vertical-align:-3px;animation:ak-blink 1s steps(1) infinite}
+.ak-orb{position:relative;display:block;width:56px;height:56px;border-radius:50%;background:conic-gradient(from var(--ak-a),#EA580C,#0B1F33 35%,#1B4DBE 55%,#0B1F33 80%,#EA580C);animation:ak-spin 4s linear infinite,ak-breathe 3.2s ease-in-out infinite;box-shadow:0 0 20px rgba(234,88,12,.45)}
+.ak-orb::after{content:'';position:absolute;inset:4px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#4C5FE8,#0B1F33 72%)}
+.ak-orb>svg{position:absolute;inset:0;margin:auto;z-index:1}
+.ak-dot{display:inline-block;width:6px;height:6px;margin-right:4px;border-radius:50%;background:#EA580C;animation:ak-dots 1.2s ease-in-out infinite}.ak-dot:nth-child(2){animation-delay:.15s}.ak-dot:nth-child(3){animation-delay:.3s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ak-draw{stroke-dashoffset:0}}
+[data-ak-theme="dark"]{background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/48px 48px,radial-gradient(1000px 520px at 72% -12%,rgba(255,90,31,.10),transparent 60%),#0B0C0E!important;color:#E8EDF2!important}[data-ak-theme="dark"] [style*="background: rgb(255, 255, 255)"]{background:rgba(22,24,27,.9)!important}[data-ak-theme="dark"] [style*="background: rgb(247, 248, 250)"],[data-ak-theme="dark"] [style*="background: rgb(243, 245, 248)"]{background:#1B1D21!important}[data-ak-theme="dark"] [style*="background: rgb(232, 236, 242)"],[data-ak-theme="dark"] [style*="background: rgb(221, 226, 234)"]{background:#2A2D32!important}[data-ak-theme="dark"] [style*="background: rgb(254, 246, 228)"]{background:rgba(255,210,63,.10)!important}[data-ak-theme="dark"] [style*="background: rgb(7, 22, 38)"]{background:#131518!important}[data-ak-theme="dark"] [style*="rgb(221, 226, 234)"],[data-ak-theme="dark"] [style*="rgb(232, 236, 242)"]{border-color:rgba(255,255,255,.12)!important}[data-ak-theme="dark"] [style*="solid rgb(152, 162, 179)"],[data-ak-theme="dark"] [style*="dashed rgb(152, 162, 179)"]{border-color:rgba(255,255,255,.26)!important}[data-ak-theme="dark"] [style*=" color: rgb(15, 27, 45)"],[data-ak-theme="dark"] [style*=" color: rgb(11, 31, 51)"]{color:#F2F4F7!important}[data-ak-theme="dark"] [style*=" color: rgb(71, 86, 107)"]{color:#9AA3AD!important}[data-ak-theme="dark"] [style*=" color: rgb(52, 66, 86)"]{color:#C3CAD2!important}[data-ak-theme="dark"] [style*=" color: rgb(91, 107, 128)"]{color:#8A939E!important}[data-ak-theme="dark"] [style*=" color: rgb(11, 93, 59)"]:not([style*="background"]){color:#3DDC97!important}[data-ak-theme="dark"] [style*=" color: rgb(155, 28, 28)"]:not([style*="background"]){color:#FF7B7B!important}[data-ak-theme="dark"] [style*=" color: rgb(27, 77, 190)"]:not([style*="background"]){color:#F2F4F7!important}[data-ak-theme="dark"] [style*=" color: rgb(194, 65, 12)"]:not([style*="background"]){color:#FF5A1F!important}[data-ak-theme="dark"] a{color:#F2F4F7}[data-ak-theme="dark"] [style*="background: rgb(211, 242, 225)"]{background:rgba(61,220,151,.14)!important;color:#3DDC97!important}[data-ak-theme="dark"] [style*="background: rgb(252, 235, 197)"]{background:rgba(255,210,63,.14)!important;color:#FFD23F!important}[data-ak-theme="dark"] [style*="background: rgb(251, 220, 220)"]{background:rgba(255,92,92,.16)!important;color:#FF8A8A!important}[data-ak-theme="dark"] [style*="background: rgb(220, 231, 251)"]{background:rgba(255,255,255,.10)!important;color:#F2F4F7!important}[data-ak-theme="dark"] [style*="background: rgb(237, 229, 251)"],[data-ak-theme="dark"] [style*="background: rgb(213, 240, 245)"],[data-ak-theme="dark"] [style*="background: rgb(253, 230, 216)"]{background:rgba(255,255,255,.08)!important;color:#D5DBE2!important}[data-ak-theme="dark"] button[style*="background: rgb(27, 77, 190)"],[data-ak-theme="dark"] a[style*="background: rgb(27, 77, 190)"],[data-ak-theme="dark"] button[style*="background: rgb(11, 31, 51)"],[data-ak-theme="dark"] a[style*="background: rgb(11, 31, 51)"],[data-ak-theme="dark"] li[style*="background: rgb(11, 31, 51)"],[data-ak-theme="dark"] main div[style*="background: rgb(11, 31, 51)"],[data-ak-theme="dark"] main div[style*="background: rgb(27, 77, 190)"][style*="border-radius: 14px"],[data-ak-theme="dark"] span[style*="background: rgb(27, 77, 190)"][style*="border-radius: 50%"]{background:#F2F4F7!important;color:#0B0C0E!important;box-shadow:none!important}[data-ak-theme="dark"] a[style*="background: rgb(255, 255, 255)"][style*=" color: rgb(11, 31, 51)"]{background:#F2F4F7!important;color:#0B0C0E!important}[data-ak-theme="dark"] span[style*="background: rgb(27, 77, 190)"]:not([style*="border-radius: 50%"]),[data-ak-theme="dark"] div[style*="background: rgb(27, 77, 190)"]:not([style*="border-radius: 14px"]){background:#DDE3EA!important}[data-ak-theme="dark"] header[style*="background: rgb(11, 31, 51)"]{background:#16181B!important}[data-ak-theme="dark"] [style*="background: rgb(14, 116, 144)"]{background:#7FA6C9!important}[data-ak-theme="dark"] [style*="background: rgb(109, 40, 217)"]{background:#C9B79C!important}[data-ak-theme="dark"] [style*="background: rgb(194, 65, 12)"]{background:#FF5A1F!important}[data-ak-theme="dark"] [style*="background: rgb(155, 28, 28)"]{background:#FF5C5C!important}[data-ak-theme="dark"] [style*="background: rgb(152, 162, 179)"]{background:#5B626B!important}[data-ak-theme="dark"] [style*="background: rgb(11, 93, 59)"]{background:#3DDC97!important;color:#0B0C0E!important}[data-ak-theme="dark"] [style*="linear-gradient(135deg"]{background:#16181B!important;border:1px solid rgba(255,255,255,.14);box-shadow:none!important;border-radius:4px!important}[data-ak-theme="dark"] svg [stroke="#1B4DBE"]{stroke:#F2F4F7}[data-ak-theme="dark"] svg [fill="#1B4DBE"]{fill:#F2F4F7}[data-ak-theme="dark"] svg [stroke="#C2410C"]{stroke:#FF5A1F}[data-ak-theme="dark"] svg [fill="#C2410C"]{fill:#FF5A1F}[data-ak-theme="dark"] svg [stroke="#0E7490"]{stroke:#7FA6C9}[data-ak-theme="dark"] svg [stroke="#6D28D9"]{stroke:#C9B79C}[data-ak-theme="dark"] svg [stroke="#8A4B08"]{stroke:#FFD23F}[data-ak-theme="dark"] svg [stroke="#9B1C1C"]{stroke:#FF5C5C}[data-ak-theme="dark"] svg [stroke="#0B5D3B"]{stroke:#3DDC97}[data-ak-theme="dark"] svg [stroke="#DDE2EA"],[data-ak-theme="dark"] svg [stroke="#E8ECF2"]{stroke:rgba(255,255,255,.12)}[data-ak-theme="dark"] svg text[fill="#47566B"]{fill:#9AA3AD}[data-ak-theme="dark"] svg text[fill="#0F1B2D"]{fill:#F2F4F7}[data-ak-theme="dark"] svg text[fill="#0B5D3B"]{fill:#3DDC97}[data-ak-theme="dark"] svg text[fill="#9B1C1C"]{fill:#FF7B7B}[data-ak-theme="dark"] svg circle[stroke="#FFFFFF"]{stroke:#16181B}[data-ak-theme="dark"] svg stop[stop-color="#1B4DBE"]{stop-color:#F2F4F7}[data-ak-theme="dark"] main section[style*="border-radius: 1"],[data-ak-theme="dark"] main article[style*="border-radius: 1"],[data-ak-theme="dark"] main aside[style*="border-radius: 1"],[data-ak-theme="dark"] main div[style*="border-radius: 12px"][style*="box-shadow"],[data-ak-theme="dark"] main div[style*="border-radius: 14px"][style*="box-shadow"],[data-ak-theme="dark"] main nav[style*="border-radius: 1"]{position:relative;border-radius:8px!important;box-shadow:none!important;border-color:rgba(255,255,255,.12)!important}[data-ak-theme="dark"] [style*="text-transform: uppercase"]{font-family:'JetBrains Mono',monospace;letter-spacing:.14em!important;color:#9AA3AD!important;-webkit-text-fill-color:currentColor}[data-ak-theme="dark"] main h1,[data-ak-theme="dark"] main h2,[data-ak-theme="dark"] [style*="font-size: 26px"],[data-ak-theme="dark"] [style*="font-size: 28px"],[data-ak-theme="dark"] [style*="font-size: 30px"],[data-ak-theme="dark"] [style*="font-size: 32px"]{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-.01em}[data-ak-theme="dark"] nav[aria-label="Main"]{background:#0E0F11!important;border-right:1px solid rgba(255,255,255,.10)}[data-ak-theme="dark"]>div[style*="background: rgb(11, 31, 51)"]{background:transparent!important}[data-ak-theme="dark"] nav a[href="Deck.dc.html"]{background:transparent!important;box-shadow:inset 0 0 0 1px #FF5A1F!important;color:#FF5A1F!important}[data-ak-theme="dark"] input,[data-ak-theme="dark"] select,[data-ak-theme="dark"] textarea{background-color:#121315!important;color:#F2F4F7!important;border-color:rgba(255,255,255,.22)!important;color-scheme:dark}[data-ak-theme="dark"] input::placeholder{color:#8A939E}[data-ak-theme="dark"] thead tr{background:rgba(255,255,255,.04)!important}[data-ak-theme="dark"] tbody tr:hover{background-color:#1B1D21}[data-ak-theme="dark"] [style*="background: rgb(255, 255, 255)"][style*=" color: rgb(11, 93, 59)"]{color:#3DDC97!important;border-color:#3DDC97!important}[data-ak-theme="dark"] [style*="background: rgb(255, 255, 255)"][style*=" color: rgb(155, 28, 28)"]{color:#FF7B7B!important;border-color:#FF7B7B!important}[data-ak-theme="dark"] [style*="background: rgb(255, 255, 255)"][style*=" color: rgb(27, 77, 190)"]{color:#F2F4F7!important;border-color:rgba(255,255,255,.4)!important}[data-ak-theme="dark"] .ak-blob{display:none}[data-ak-theme="dark"] .ak-ai{background:linear-gradient(#16181B,#16181B) padding-box,conic-gradient(from var(--ak-a),rgba(255,255,255,.14),#FF5A1F 12%,rgba(255,255,255,.14) 28%) border-box!important}[data-ak-theme="dark"] .ak-shimmer{background-image:linear-gradient(90deg,#9AA3AD,#FFFFFF,#FF5A1F,#9AA3AD);-webkit-text-fill-color:transparent!important}[data-ak-theme="dark"] .ak-orb{background:conic-gradient(from var(--ak-a),#FF5A1F,#2A2D32 35%,#F2F4F7 55%,#2A2D32 80%,#FF5A1F);box-shadow:0 0 22px rgba(255,90,31,.45)}[data-ak-theme="dark"] .ak-orb::after{background:radial-gradient(circle at 32% 28%,#34383E,#0B0C0E 72%)}[data-ak-theme="dark"] .ak-dot{background:#FF5A1F}
+[data-ak-theme="dark"] [style*="solid rgb(27, 77, 190)"]{border-color:#FF5A1F!important}[data-ak-theme="dark"] pre{background:#0F1012!important;border:1px solid rgba(255,255,255,.12)}[data-ak-theme="dark"] input[type="checkbox"]{accent-color:#FF5A1F}[data-ak-theme="dark"] span[style*="background: rgb(27, 77, 190)"]:not([style*="border-radius: 50%"]){color:#0B0C0E!important}
+[data-ak-theme="dark"] #ak-command-list{background:#16181B!important;border-color:rgba(255,255,255,.3)!important}
+
+/*light*/[data-ak-theme="light"] main h1,[data-ak-theme="light"] main h2,[data-ak-theme="light"] [style*="font-size: 26px"],[data-ak-theme="light"] [style*="font-size: 28px"],[data-ak-theme="light"] [style*="font-size: 30px"],[data-ak-theme="light"] [style*="font-size: 32px"]{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-.01em}[data-ak-theme="light"]{background:#F4F4F1!important;color:#111315!important}[data-ak-theme="light"] nav[aria-label="Main"]{background:#111315!important}[data-ak-theme="light"]>div[style*="background: rgb(11, 31, 51)"]{background:#111315!important}[data-ak-theme="light"] [style*="background: rgb(11, 31, 51)"]{background:#111315!important}[data-ak-theme="light"] [style*="background: rgb(243, 245, 248)"]{background:#F4F4F1!important}[data-ak-theme="light"] [style*="background: rgb(247, 248, 250)"]{background:#FAFAF8!important}[data-ak-theme="light"] [style*="background: rgb(232, 236, 242)"]{background:#ECECE8!important}[data-ak-theme="light"] [style*="rgb(221, 226, 234)"]{border-color:#E3E3DE!important}[data-ak-theme="light"] [style*="solid rgb(152, 162, 179)"]{border-color:#C9C9C3!important}[data-ak-theme="light"] [style*=" color: rgb(15, 27, 45)"]{color:#111315!important}[data-ak-theme="light"] [style*=" color: rgb(71, 86, 107)"]{color:#5F646B!important}[data-ak-theme="light"] [style*=" color: rgb(52, 66, 86)"]{color:#3A3E44!important}[data-ak-theme="light"] main [style*="box-shadow"][style*="border-radius: 1"]:not(.ak-ai):not(button):not(a){box-shadow:none!important}[data-ak-theme="light"] a{color:#B93A08}[data-ak-theme="light"] a:hover{color:#8F2C05}[data-ak-theme="light"] button[style*="background: rgb(27, 77, 190)"],[data-ak-theme="light"] a[style*="background: rgb(27, 77, 190)"]{background:#111315!important;color:#FFFFFF!important}[data-ak-theme="light"] span[style*="background: rgb(27, 77, 190)"][style*="border-radius: 50%"]{background:#111315!important;color:#FFFFFF!important}[data-ak-theme="light"] span[style*="background: rgb(27, 77, 190)"]:not([style*="border-radius: 50%"]),[data-ak-theme="light"] div[style*="background: rgb(27, 77, 190)"]{background:#EA580C!important}[data-ak-theme="light"] main div[style*="background: rgb(27, 77, 190)"][style*="border-radius: 14px"]{background:#111315!important;color:#FFFFFF!important}[data-ak-theme="light"] [style*="solid rgb(27, 77, 190)"]{border-color:#EA580C!important}[data-ak-theme="light"] [style*=" color: rgb(27, 77, 190)"]:not([style*="background"]){color:#B93A08!important}[data-ak-theme="light"] button[style*=" color: rgb(27, 77, 190)"]{color:#111315!important;border-color:#C9C9C3!important}[data-ak-theme="light"] [style*="background: rgb(220, 231, 251)"]{background:#ECECE8!important;color:#111315!important}[data-ak-theme="light"] [style*="background: rgb(237, 229, 251)"]{background:#ECECE8!important;color:#3A3E44!important}[data-ak-theme="light"] [style*="background: rgb(109, 40, 217)"]{background:#8A8F98!important}[data-ak-theme="light"] [style*="background: rgb(14, 116, 144)"]{background:#4F7C9B!important}[data-ak-theme="light"] [style*="linear-gradient(135deg"]{background:#111315!important;box-shadow:none!important}[data-ak-theme="light"] svg [stroke="#1B4DBE"]{stroke:#111315}[data-ak-theme="light"] svg [fill="#1B4DBE"]{fill:#111315}[data-ak-theme="light"] svg [stroke="#6D28D9"]{stroke:#8A8F98}[data-ak-theme="light"] svg [stroke="#0E7490"]{stroke:#4F7C9B}[data-ak-theme="light"] svg [stop-color="#1B4DBE"]{stop-color:#111315}[data-ak-theme="light"] input[type="checkbox"],[data-ak-theme="light"] input[type="radio"]{accent-color:#EA580C}[data-ak-theme="light"] .ak-ai{background:linear-gradient(#FFFFFF,#FFFFFF) padding-box,conic-gradient(from var(--ak-a),#EA580C,#111315 35%,#D9D6D0 55%,#111315 80%,#EA580C) border-box!important}[data-ak-theme="light"] .ak-orb{background:conic-gradient(from var(--ak-a),#EA580C,#111315 35%,#D9D6D0 55%,#111315 80%,#EA580C)}[data-ak-theme="light"] .ak-orb::after{background:radial-gradient(circle at 32% 28%,#4A4E55,#111315 72%)}[data-ak-theme="light"] .ak-shimmer{background-image:linear-gradient(90deg,#111315,#EA580C,#8A8F98,#111315)}[data-ak-theme="light"] .ak-blob{display:none}[data-ak-theme="light"] tbody tr:hover{background-color:#F4F4F1}[data-ak-theme="light"] #ak-command-list{background:#FFFFFF!important}
+/*panel*/[data-ak-theme="dark"] .akp-drawer{background:#16181B!important;border-color:rgba(255,255,255,.2)!important}[data-ak-theme="dark"] .akp-toast{background:#F2F4F7!important;color:#0B0C0E!important}
+/*drill*/[data-drill]{cursor:pointer;position:relative;transition:border-color .15s ease,transform .15s ease}[data-drill]:hover{border-color:#EA580C!important;transform:translateY(-1px)}[data-drill]::after{content:"\2197";position:absolute;right:10px;bottom:6px;font-size:12px;color:#98A2B3}
+@keyframes ak-live{0%,100%{box-shadow:0 0 0 0 rgba(234,88,12,.45)}50%{box-shadow:0 0 0 7px rgba(234,88,12,0)}}.ak-live{animation:ak-live 1.8s ease-in-out infinite}
+</style>
+</helmet>
+<div data-ak-root="1" data-ak-theme="light" style="display: flex; flex-wrap: wrap; min-height: 1100px; background: #F3F5F8; color: #0F1B2D; font-family: Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.45">
+<svg aria-hidden="true" width="0" height="0" style="position: absolute"><defs><symbol id="ic-rack" viewBox="0 0 64 64"><rect x="9" y="5" width="46" height="54" rx="5" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-width="2.200"></rect><rect x="14" y="10" width="36" height="12" rx="2.500" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.400"></rect><path d="M18 13v5M22 13v5M26 13v5M30 13v5" stroke="currentColor" stroke-width="1.400" stroke-linecap="round"></path><circle cx="45" cy="16" r="1.800" fill="#3DDC97"></circle><circle cx="40" cy="16" r="1.800" fill="currentColor" fill-opacity="0.5"></circle><rect x="14" y="26" width="36" height="12" rx="2.500" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.400"></rect><path d="M18 29v5M22 29v5M26 29v5M30 29v5" stroke="currentColor" stroke-width="1.400" stroke-linecap="round"></path><circle cx="45" cy="32" r="1.800" fill="#3DDC97"></circle><circle cx="40" cy="32" r="1.800" fill="currentColor" fill-opacity="0.5"></circle><rect x="14" y="42" width="36" height="12" rx="2.500" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="1.400"></rect><path d="M18 45v5M22 45v5M26 45v5M30 45v5" stroke="currentColor" stroke-width="1.400" stroke-linecap="round"></path><circle cx="45" cy="48" r="1.800" fill="#3DDC97"></circle><circle cx="40" cy="48" r="1.800" fill="currentColor" fill-opacity="0.5"></circle></symbol><symbol id="ic-db" viewBox="0 0 64 64"><path d="M12 15c0-5 9-9 20-9s20 4 20 9v34c0 5-9 9-20 9s-20-4-20-9z" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="2.200"></path><ellipse cx="32" cy="15" rx="20" ry="9" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="2.200"></ellipse><path d="M12 27c0 5 9 9 20 9s20-4 20-9M12 39c0 5 9 9 20 9s20-4 20-9" fill="none" stroke="currentColor" stroke-width="1.600"></path><circle cx="20" cy="30.500" r="1.800" fill="#3DDC97"></circle><circle cx="20" cy="42.500" r="1.800" fill="#3DDC97"></circle><circle cx="20" cy="54" r="1.800" fill="currentColor" fill-opacity="0.5"></circle></symbol><symbol id="ic-vm" viewBox="0 0 64 64"><rect x="20" y="6" width="38" height="30" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.800" stroke-dasharray="3 3"></rect><rect x="13" y="13" width="38" height="30" rx="4" fill="none" stroke="currentColor" stroke-opacity="0.7" stroke-width="1.800"></rect><rect x="6" y="20" width="40" height="32" rx="4" fill="currentColor" fill-opacity="0.12" stroke="currentColor" stroke-width="2.200"></rect><path d="M6 28h40" stroke="currentColor" stroke-width="1.600"></path><circle cx="11" cy="24" r="1.300" fill="currentColor"></circle><circle cx="15.500" cy="24" r="1.300" fill="currentColor"></circle><path d="M12 35h14M12 40h22M12 45h9" stroke="currentColor" stroke-width="1.600" stroke-linecap="round"></path><circle cx="40" cy="46" r="2" fill="#3DDC97"></circle><path d="M18 58h16M26 52v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></symbol><symbol id="ic-app" viewBox="0 0 64 64"><rect x="7" y="11" width="50" height="42" rx="5" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="2.200"></rect><path d="M7 22h50" stroke="currentColor" stroke-width="1.800"></path><circle cx="14" cy="16.500" r="1.600" fill="currentColor"></circle><circle cx="19.500" cy="16.500" r="1.600" fill="currentColor"></circle><rect x="13" y="28" width="16" height="19" rx="2" fill="currentColor" fill-opacity="0.18"></rect><path d="M34 30h17M34 37h17M34 44h10" stroke="currentColor" stroke-width="1.800" stroke-linecap="round"></path></symbol><symbol id="ic-fn" viewBox="0 0 64 64"><path d="M32 14v12M32 26L16 46M32 26l16 20" fill="none" stroke="currentColor" stroke-width="1.800"></path><circle cx="32" cy="14" r="7" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="2.200"></circle><circle cx="16" cy="48" r="7" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="2.200"></circle><circle cx="48" cy="48" r="7" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="2.200"></circle></symbol></defs></svg>
+
+<div style="flex: 1 1 232px; background: #0B1F33"><dc-import name="Nav" active="home" hint-size="232px,1100px"></dc-import></div>
+<main style="flex: 999 1 560px; min-width: 0; padding: 16px 32px 40px; display: flex; flex-direction: column; gap: 20px">
+<dc-import name="Topbar" hint-size="100%,57px"></dc-import>
+<section style="position: relative; overflow: hidden; display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 12px 20px; border-radius: 14px; color: #FFFFFF; background: #071626; box-shadow: 0 14px 36px rgba(11, 31, 51, 0.3)">
+<span class="ak-blob ak-b1" aria-hidden="true" style="left: -80px; top: -140px; width: 400px; height: 400px; background: #1B4DBE; opacity: 0.8"></span>
+<span class="ak-blob ak-b2" aria-hidden="true" style="right: -40px; bottom: -180px; width: 440px; height: 440px; background: #6D28D9; opacity: 0.65"></span>
+<span class="ak-blob ak-b1" aria-hidden="true" style="left: 46%; top: -150px; width: 260px; height: 260px; background: #EA580C; opacity: 0.3"></span>
+<div style="position: relative; flex: 1 1 300px; min-width: 0">
+<div style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #C9DAF5">Sample Bank Ltd, all sites</div>
+<h1 style="margin: 2px 0 4px; font-size: 17px; font-weight: 700; line-height: 1.25">3 of 6 services protected. <span style="color: #9FB0C6">2 exposed, 1 disrupted.</span></h1>
+<p style="margin: 0 0 8px; font-size: 13px; color: #E3E9F1">Readings are 40 seconds old. Sample data.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<a href="Alerts.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 8px; font-size: 13px; background: #FFFFFF; color: #0B1F33; text-decoration: none; font-weight: 600">See what needs action</a>
+</div>
+</div>
+<div style="position: relative; flex: 3 1 560px; min-width: 0; display: flex; align-items: center; gap: 14px"><div style="flex: 0 0 auto; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 10px; background: rgba(255, 255, 255, 0.08)"><svg aria-hidden="true" width="32" height="32" style="flex: 0 0 32px; color: #FFFFFF"><use href="#ic-rack"></use></svg><div><div style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #C9DAF5">Primary site</div><div style="font-size: 15px; font-weight: 700; line-height: 1.2">Production</div><div style="font-size: 12px; color: #E3E9F1">23 of 23 healthy</div></div></div><div style="flex: 2 0 250px; min-width: 250px; display: flex; flex-direction: column; gap: 10px"><div><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 12px; line-height: 1.3; white-space: nowrap"><span style="font-weight: 600; color: #6EE7B7">9 links in step</span><span style="color: #E3E9F1; white-space: nowrap">under 5 s behind</span></div><div style="position: relative; height: 2px; margin-top: 6px; background: rgba(110, 231, 183, 0.35)"><i class="ak-pk" style="background: #6EE7B7"></i><i class="ak-pk" style="background: #6EE7B7; animation-delay: -0.800s"></i><i class="ak-pk" style="background: #6EE7B7; animation-delay: -1.600s"></i></div></div><div><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 12px; line-height: 1.3; white-space: nowrap"><span style="font-weight: 600; color: #FDE047">Internet Banking is behind</span><span style="color: #E3E9F1; white-space: nowrap">22 min, limit 15</span></div><div style="position: relative; height: 2px; margin-top: 6px; background: rgba(253, 224, 71, 0.35)"><i class="ak-pk" style="background: #FDE047; animation-duration: 7s"></i></div></div><div><div style="display: flex; justify-content: space-between; gap: 12px; font-size: 12px; line-height: 1.3; white-space: nowrap"><span style="font-weight: 600; color: #FCA5A5">Data Warehouse has stopped</span><span style="color: #E3E9F1; white-space: nowrap">since 06:50</span></div><div style="position: relative; height: 2px; margin-top: 6px; background: repeating-linear-gradient(90deg, rgba(252, 165, 165, 0.7) 0 6px, transparent 6px 12px)"><i class="ak-stop" style="background: #FCA5A5"></i></div></div></div><div style="flex: 0 0 auto; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 10px; background: rgba(255, 255, 255, 0.08)"><svg aria-hidden="true" width="32" height="32" style="flex: 0 0 32px; color: #FFFFFF"><use href="#ic-rack"></use></svg><div><div style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #C9DAF5">DR site</div><div style="font-size: 15px; font-weight: 700; line-height: 1.2">Recovery</div><div style="font-size: 12px; color: #E3E9F1">22 of 23 healthy</div></div></div></div>
+<div style="position: relative; flex: 0 0 96px; display: flex; flex-direction: column; align-items: center; gap: 2px">
+<svg width="88" height="88" viewBox="0 0 132 132" role="img" aria-label="Recovery readiness 66 percent">
+<defs><linearGradient id="ak-ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FDBA74"></stop><stop offset="1" stop-color="#FF5A1F"></stop></linearGradient></defs>
+<circle cx="66" cy="66" r="52" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="12"></circle>
+<circle cx="66" cy="66" r="52" fill="none" stroke="url(#ak-ring)" stroke-width="12" stroke-linecap="round" stroke-dasharray="{{ringDash}}" transform="rotate(-90 66 66)" filter="url(#ak-pk)"></circle>
+</svg>
+<div style="position: absolute; left: 0; right: 0; top: 26px; text-align: center; pointer-events: none"><div style="font-size: 20px; font-weight: 700; line-height: 1.1">{{pctText}}</div><div style="font-size: 10px; color: #E3E9F1">ready</div></div>
+<span style="font-size: 11px; color: #E3E9F1">Goal 80%</span>
+</div>
+</section>
+<section class="ak-ai" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 6px 14px; border-radius: 12px; box-shadow: 0 8px 28px rgba(109, 40, 217, 0.14)">
+<span class="ak-orb" aria-hidden="true" style="flex: 0 0 34px; width: 34px; height: 34px"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 3l2.200 6.800L21 12l-6.800 2.200L12 21l-2.200-6.800L3 12l6.800-2.200z" fill="#FFFFFF"></path></svg></span>
+<div style="flex: 1 1 320px; min-width: 0">
+<div class="ak-shimmer" style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.2">Kavach AI insight</div>
+<p class="{{caretClass}}" style="margin: 1px 0 0; min-height: 20px; font-size: 14px; font-weight: 500; color: #0F1B2D">{{insight}}</p>
+</div>
+<a href="Assistant.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: 8px; background: #0B1F33; color: #FFFFFF; text-decoration: none; font-size: 13px; font-weight: 600">See the reasoning</a>
+</section>
+<a href="Run.dc.html" aria-label="Run in progress: Payments Gateway switchover, step 4 of 9, waiting for approval. Open the live run." style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 10px 16px; border: 1px solid #DDE2EA; border-radius: 12px; background: #FFFFFF; color: #0F1B2D; text-decoration: none">
+<span class="ak-live" aria-hidden="true" style="flex: 0 0 10px; height: 10px; border-radius: 50%; background: #C2410C"></span>
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #47566B">Run in progress</span>
+<span style="flex: 1 1 260px; font-weight: 600">Payments Gateway switchover, real drill <span style="font-weight: 400; color: #47566B">Step 4 of 9 is waiting for approval. 14 min so far, 1 h allowed.</span></span>
+<span style="flex: 0 1 160px; height: 8px; border-radius: 4px; background: #E8ECF2"><span style="display: block; width: 33%; height: 8px; border-radius: 4px; background: #C2410C"></span></span>
+<span style="font-weight: 600; color: #C2410C">Open the live run</span>
+</a>
+<section aria-label="Key figures" style="display: flex; flex-wrap: wrap; gap: 16px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<div data-drill="{{k.label}}" style="flex: {{k.flex}}; background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 14px; padding: 16px 18px; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.06), 0 8px 20px rgba(15, 27, 45, 0.06)">
+<div style="display: flex; align-items: center; gap: 10px">
+<span aria-hidden="true" style="flex: 0 0 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; color: {{k.ic}}; background: {{k.ib}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{k.icon}}"></path></svg></span>
+<span style="font-size: 13px; color: #47566B">{{k.label}}</span>
+</div>
+<div style="margin-top: 10px; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px">
+<span style="font-size: 28px; font-weight: 700; line-height: 1.1; white-space: nowrap">{{k.value}}</span>
+<svg aria-hidden="true" width="76" height="34" viewBox="0 0 76 34"><polyline points="{{k.spark}}" fill="none" stroke="{{k.ic}}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg>
+</div>
+<sc-if value="{{k.big}}" hint-placeholder-val="{{ false }}"><div style="display: flex; gap: 5px; margin-top: 12px"><sc-for list="{{k.segs}}" as="g" hint-placeholder-count="6"><span style="flex: 1 1 0; height: 10px; border-radius: 5px; background: {{g.c}}"></span></sc-for></div><div style="display: flex; gap: 5px; margin-top: 4px"><sc-for list="{{k.segs}}" as="g" hint-placeholder-count="6"><span style="flex: 1 1 0; font-size: 11px; color: #47566B; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{g.n}}</span></sc-for></div></sc-if>
+<div style="margin-top: 8px; font-size: 12px; color: #47566B">{{k.note}}</div>
+</div>
+</sc-for>
+</section>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<section style="flex: 3 1 600px; min-width: 0; background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 14px; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.06), 0 8px 20px rgba(15, 27, 45, 0.06)">
+<div style="padding: 20px 20px 12px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Business services</h2>
+<p style="margin: 4px 0 0; font-size: 13px; color: #47566B">Ordered by impact tier, then readiness. Recovery time is measured on real drills only.</p>
+</div>
+<div style="overflow-x: auto">
+<table style="width: 100%; min-width: 700px; border-collapse: collapse">
+<thead>
+<tr style="text-align: left; font-size: 12px; color: #47566B; background: #F7F8FA">
+<th scope="col" style="padding: 10px 20px; font-weight: 500">Service</th>
+<th scope="col" style="padding: 10px 12px; font-weight: 500">State</th>
+<th scope="col" style="padding: 10px 12px; font-weight: 500">Readiness</th>
+<th scope="col" style="padding: 10px 12px; font-weight: 500">8-week trend</th>
+<th scope="col" style="padding: 10px 12px; font-weight: 500">Data loss / allowed</th>
+<th scope="col" style="padding: 10px 20px; font-weight: 500">Recovery time / allowed</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{services}}" as="s" hint-placeholder-count="6">
+<tr style="border-top: 1px solid #E8ECF2">
+<td style="padding: 12px 20px"><div style="display: flex; align-items: center; gap: 12px"><span aria-hidden="true" style="flex: 0 0 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 13px; font-weight: 700; color: {{s.avFg}}; background: {{s.avBg}}">{{s.av}}</span><span><span style="display: block; font-weight: 600">{{s.name}}</span><span style="display: block; font-size: 12px; color: #47566B">{{s.tier}}</span></span></div></td>
+<td style="padding: 12px"><span style="display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: {{s.fg}}; background: {{s.bg}}">{{s.state}}</span></td>
+<td style="padding: 12px"><div style="display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="38" height="38" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="none" stroke="#E8ECF2" stroke-width="5"></circle><circle cx="20" cy="20" r="15" fill="none" stroke="{{s.fg}}" stroke-width="5" stroke-linecap="round" stroke-dasharray="{{s.dash}}" transform="rotate(-90 20 20)"></circle></svg><span style="font-weight: 600">{{s.ready}}</span></div></td>
+<td style="padding: 12px"><svg aria-hidden="true" width="84" height="28" viewBox="0 0 84 28"><polyline points="{{s.spark}}" fill="none" stroke="{{s.fg}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></td>
+<td style="padding: 12px">{{s.rpo}}</td>
+<td style="padding: 12px 20px">{{s.rto}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<section style="background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 14px; padding: 20px; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.06), 0 8px 20px rgba(15, 27, 45, 0.06)">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Readiness, last 12 weeks</h2>
+<a href="Trends.dc.html" style="font-size: 13px; font-weight: 500">All trends</a>
+</div>
+<svg viewBox="0 0 320 140" role="img" aria-label="Readiness rose from 54 percent to 66 percent over 12 weeks, below the 80 percent goal" style="display: block; width: 100%; height: auto; margin-top: 10px">
+<defs><linearGradient id="ak-home-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B4DBE" stop-opacity="0.28"></stop><stop offset="1" stop-color="#1B4DBE" stop-opacity="0"></stop></linearGradient></defs>
+<line x1="10" y1="34" x2="310" y2="34" stroke="#0B5D3B" stroke-width="1.5" stroke-dasharray="5 4"></line>
+<text x="310" y="27" text-anchor="end" font-size="11" fill="#0B5D3B" font-family="Inter, sans-serif">Goal 80%</text>
+<path d="{{area}}" fill="url(#ak-home-area)"></path>
+<path d="{{line}}" pathLength="1" class="ak-draw" fill="none" stroke="#1B4DBE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+<circle cx="310" cy="62" r="4.5" fill="#1B4DBE" stroke="#FFFFFF" stroke-width="2"></circle>
+<text x="10" y="134" font-size="11" fill="#47566B" font-family="Inter, sans-serif">12 weeks ago, 54%</text>
+<text x="310" y="134" text-anchor="end" font-size="11" fill="#47566B" font-family="Inter, sans-serif">Now, 66%</text>
+</svg>
+</section>
+<section style="background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 14px; padding: 20px; box-shadow: 0 1px 2px rgba(15, 27, 45, 0.06), 0 8px 20px rgba(15, 27, 45, 0.06)">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Needs a decision</h2>
+<p style="margin: 4px 0 4px; font-size: 13px; color: #47566B">Ranked by business consequence.</p>
+<sc-for list="{{decisions}}" as="d" hint-placeholder-count="3">
+<div style="display: flex; gap: 12px; align-items: flex-start; padding-top: 10px; margin-top: 10px; border-top: 1px solid #E8ECF2">
+<span aria-hidden="true" style="flex: 0 0 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; font-weight: 700; color: {{d.fg}}; background: {{d.bg}}">{{d.no}}</span>
+<div style="min-width: 0">
+<a href="{{d.href}}" style="display: inline-flex; align-items: center; min-height: 44px; font-weight: 600">{{d.title}}</a>
+<div style="font-size: 13px; color: #47566B">{{d.why}}</div>
+</div>
+</div>
+</sc-for>
+</section>
+</aside>
+</div>
+<div style="position: sticky; bottom: 24px; z-index: 20; align-self: flex-end; margin-top: auto; width: 64px; height: 64px"><dc-import name="Chat" hint-size="64px,64px"></dc-import></div>
+</main>
+<dc-import name="Panel" hint-size="0px,0px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+state = { t: 0, chars: 0 };
+componentDidMount() {
+var self = this, start = Date.now(), full = 175;
+function tick() {
+var el = Date.now() - start;
+self.setState({ t: Math.min(1, el / 1500), chars: Math.max(0, Math.floor((el - 600) / 20)) });
+if (el < 600 + full * 20 + 100) { self._tm = setTimeout(tick, 33); }
+}
+tick();
+}
+componentWillUnmount() { clearTimeout(this._tm); }
+renderVals() {
+var st = this.state || {}, e = 1 - Math.pow(1 - (st.t == null ? 1 : st.t), 3);
+var INSIGHT = 'Internet Banking returns inside its data-loss limit in about 12 minutes, when the statement batch ends. No action needed.';
+var typed = INSIGHT.slice(0, st.chars == null ? INSIGHT.length : st.chars);
+var ok = ['#0B5D3B', '#D3F2E1'], warn = ['#8A4B08', '#FCEBC5'], bad = ['#9B1C1C', '#FBDCDC'];
+function spark(vals, w, h) {
+var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals), span = (max - min) || 1;
+return vals.map(function (v, i) { return (3 + i * (w - 6) / (vals.length - 1)).toFixed(1) + ',' + (h - 4 - (v - min) / span * (h - 8)).toFixed(1); }).join(' ');
+}
+function row(av, avFg, avBg, name, tier, state, c, pct, trend, rpo, rto) {
+return { av: av, avFg: avFg, avBg: avBg, name: name, tier: tier, state: state, fg: c[0], bg: c[1], ready: pct + '%', dash: (pct * 0.942).toFixed(1) + ' 94.2', spark: spark(trend, 84, 28), rpo: rpo, rto: rto };
+}
+var vals = [54, 55, 53, 57, 58, 60, 59, 62, 63, 61, 64, 66];
+var line = vals.map(function (v, i) { return (i ? 'L' : 'M') + (10 + i * (300 / 11)).toFixed(1) + ' ' + (114 - (v - 40) * 2).toFixed(1); }).join(' ');
+return { insight: typed, caretClass: typed.length < INSIGHT.length ? 'ak-caret' : '', pctText: Math.round(66 * e) + '%', ringDash: (215.6 * e).toFixed(1) + ' 326.7',
+line: line, area: line + ' L310 118 L10 118 Z',
+kpis: [
+{ flex: '2 1 300px', big: true, segs: [['#0B5D3B', 'Core Banking'], ['#0B5D3B', 'Payments'], ['#0B5D3B', 'Card Switch'], ['#D97706', 'Internet Bkg'], ['#D97706', 'Treasury'], ['#9B1C1C', 'Data Whse']].map(function (s) { return { c: s[0], n: s[1] }; }), label: 'Protected services', value: '3 of 6', note: 'One bar per service: green protected, amber exposed, red disrupted', icon: 'M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6zM9 12l2 2 4-4', ic: '#0B5D3B', ib: '#D3F2E1', spark: spark([2, 2, 3, 3, 3, 4, 3, 3], 76, 34) },
+{ flex: '1 1 150px', big: false, segs: [], label: 'Needing action', value: '3', note: '2 exposed, 1 disrupted', icon: 'M12 4l9 16H3zM12 10v4M12 17h.010', ic: '#8A4B08', ib: '#FCEBC5', spark: spark([4, 4, 3, 3, 3, 2, 3, 3], 76, 34) },
+{ flex: '1 1 150px', big: false, segs: [], label: 'Exposure per hour', value: '₹18 lakh', note: 'Sample figure, 1 of 3 services costed', icon: 'M6 5h12M6 9h12M6 5c6 0 8 6 0 8l7 7', ic: '#6D28D9', ib: '#EDE5FB', spark: spark([30, 30, 22, 22, 18, 12, 18, 18], 76, 34) },
+{ flex: '1 1 150px', big: false, segs: [], label: 'Real drills, 90 days', value: '4 of 6', note: 'Simulations are not counted', icon: 'M4 7h16v13H4zM4 11h16M8 3v4M16 3v4M9 16l2 2 4-4', ic: '#1B4DBE', ib: '#DCE7FB', spark: spark([1, 2, 2, 3, 3, 3, 4, 4], 76, 34) }
+],
+services: [
+row('CB', '#1B4DBE', '#DCE7FB', 'Core Banking', 'Tier 1', 'Protected', ok, 96, [90, 91, 93, 92, 94, 95, 95, 96], '2 min / 15 min', '38 min / 1 h'),
+row('PG', '#0E7490', '#D5F0F5', 'Payments Gateway', 'Tier 1', 'Protected', ok, 91, [84, 86, 85, 88, 89, 90, 90, 91], '4 min / 15 min', '52 min / 1 h'),
+row('CS', '#6D28D9', '#EDE5FB', 'Card Switch', 'Tier 1', 'Protected', ok, 88, [80, 82, 83, 85, 84, 86, 87, 88], '3 min / 15 min', '44 min / 1 h'),
+row('IB', '#C2410C', '#FDE6D8', 'Internet Banking', 'Tier 1', 'Exposed', warn, 64, [78, 79, 80, 79, 78, 76, 71, 64], '22 min / 15 min', '47 min / 1 h'),
+row('TR', '#0B5D3B', '#D3F2E1', 'Treasury', 'Tier 2', 'Exposed', warn, 58, [70, 69, 67, 66, 64, 62, 60, 58], '9 min / 30 min', 'No drill, 190 days / 4 h'),
+row('DW', '#47566B', '#E8ECF2', 'Data Warehouse', 'Tier 3', 'Disrupted', bad, 0, [62, 63, 61, 62, 60, 61, 58, 0], 'Replication stopped / 4 h', '3 h 10 min / 8 h')
+],
+decisions: [
+{ no: 1, fg: warn[0], bg: warn[1], title: 'Internet Banking would lose too much data', why: 'Replication is 22 minutes behind; 15 are allowed.', href: 'Status.dc.html' },
+{ no: 2, fg: warn[0], bg: warn[1], title: 'Treasury has no recent drill', why: 'Last real drill 190 days ago; a database patch differs.', href: 'Baseline.dc.html' },
+{ no: 3, fg: bad[0], bg: bad[1], title: 'Data Warehouse replication has stopped', why: 'Tier 3, so it ranks below the two above.', href: 'Alerts.dc.html' }
+]
+};
+}
+}
+</script>
+</body>
+</html>
